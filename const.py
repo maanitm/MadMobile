@@ -1,3 +1,4 @@
+#create module to retrieve constants and bindings
 class _const:
 
     class ConstError(TypeError): pass
@@ -12,9 +13,11 @@ class _const:
             raise self.ConstError, "Can't unbind const(%s)"%name
         raise NameError, name
 
+#set the class as a system module
 import sys
 sys.modules[__name__] = _const()
 
+#set global constants
 import const
 const.projectName = "MadMobile"
 const.rightMotorFrontPin = 1
