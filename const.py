@@ -20,7 +20,11 @@ sys.modules[__name__] = _const()
 #set global constants
 import const
 const.projectName = "MadMobile"
+
 const.rightMotorFrontPin = 1
 const.rightMotorBackPin = 2
 const.leftMotorFrontPin = 3
 const.leftMotorBackPin = 4
+
+const.mapQuestApiKey = "vtJYRcXbeLw2mQ66f6LWDRMaFn4E1D67"
+const.googleMapsApiKey = "AIzaSyAuPFEQGq-5JohYzHZxJpQ6buf24tU_dmU"
