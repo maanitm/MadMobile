@@ -28,3 +28,4 @@ const.leftMotorBackPin = 4
 
 const.mapQuestApiKey = "vtJYRcXbeLw2mQ66f6LWDRMaFn4E1D67"
 const.googleMapsApiKey = "AIzaSyAuPFEQGq-5JohYzHZxJpQ6buf24tU_dmU"
+const.mapboxApiKey = "sk.eyJ1IjoibWFhbml0bSIsImEiOiJjajY1YTFjdDEyMTlzMnFvM3FwcjRxZXY5In0.RF3RkIbvcfDiIK4xB2eBxQ"

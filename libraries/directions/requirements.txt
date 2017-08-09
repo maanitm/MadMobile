@@ -1,2 +1,0 @@
-requests
-git+git://github.com/mapkin/polycomp.git@master
