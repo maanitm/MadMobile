@@ -13,3 +13,6 @@ Follow https://google.github.io/styleguide/pyguide.html for Python changes.
 
 ### Compatibility
 This project is specifically for a certain hardware setup and is public for research purposes. For more information on how to contribute or to provide feedback, contact me@maanit.me
+
+### Usage
+  python /path/to/madmobile/main.py
