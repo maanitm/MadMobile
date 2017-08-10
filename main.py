@@ -6,5 +6,5 @@ from testing import motor_test
 print const.projectName
 
 # run methods from packages and files
-batteryEstimate.run()
-motor_test.run()
+# batteryEstimate.run()
+# motor_test.run()
