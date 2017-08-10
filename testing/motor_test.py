@@ -1,6 +1,13 @@
-from motor import motor
+import os, sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-mymotor = motor('m1', 17, simulation=False)
+import const
+
+from modules.drive.motor import Motor
+
+print const.projectName
+
+mymotor = Motor('m1', 17, simulation=True)
 #where 17 is  GPIO17 = pin 11
 
 print('***Disconnect ESC power')
@@ -20,7 +27,7 @@ mymotor.setW(0)
 print('***Wait N beep for battery cell')
 print('***Wait beeeeeep for ready')
 print('***then press ENTER')
-res = raw_74input()
+res = raw_input()
 print ('increase > a | decrease > z | save Wh > n | set Wh > h|quit > 9')
 
 cycling = True

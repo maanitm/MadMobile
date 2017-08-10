@@ -1,4 +1,9 @@
-class motor(object):
+import os, sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+import const
+
+class Motor(object):
     """Manages the currect Angular rotation
     Implements the IO interface using the RPIO lib
     __init_(self, name, pin, kv=1000, RPMMin=1, RPMMax=100, debug=True, simulation=True):
