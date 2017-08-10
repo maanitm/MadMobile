@@ -8,6 +8,7 @@ from mapbox import Directions
 from modules.navigation import mapping
 
 print const.projectName
+print "Battery Simulation"
 
 maps = mapping.Mapping()
 
