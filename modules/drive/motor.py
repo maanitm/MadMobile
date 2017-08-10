@@ -3,6 +3,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import const
 
+# this class is used to set motor values via raspberry pi GPIO
 class Motor(object):
     """Manages the currect Angular rotation
     Implements the IO interface using the RPIO lib

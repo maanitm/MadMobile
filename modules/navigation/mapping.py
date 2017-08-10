@@ -6,16 +6,21 @@ import googlemaps
 from mapbox import Directions
 from math import radians, cos, sin, asin, sqrt
 
+# this class is used to get navigation based data and convert values
 class Mapping(object):
+    # connect to the googlemaps client using GMaps API Key
     gmaps = googlemaps.Client(key=const.googleMapsApiKey)
 
-    def __init__(self, ):
+    # initialize class with no arguments
+    def __init__(self):
         pass
 
+    # convert address to coordinate using GMaps Geocode API
     def addressToCoordinate(self, address):
         geocode = self.gmaps.geocode(address)
         return [geocode[0]['geometry']['location']['lat'], geocode[0]['geometry']['location']['lng']]
 
+    # convert a route to geojson using Mapbox Direction API then coordinates from LineString
     def routeCoordinates(self, fromLoc, toLoc):
         loc1 = self.addressToCoordinate(fromLoc)
         loc2 = self.addressToCoordinate(toLoc)
@@ -43,10 +48,12 @@ class Mapping(object):
 
         return routes['features'][0]['geometry']['coordinates']
 
+    # get altitude of each coordinate in array using GMaps Elevation API
     def altitudesFromCoordinates(self, coordinates):
             altitudes = self.gmaps.elevation_along_path(coordinates, len(coordinates))
             return altitudes
 
+    # get distance between lat and lon of 2 coordinates (default to imperial system)
     def distanceFromCoordinates(self, lon1, lat1, lon2, lat2, metric=False):
         """
         Calculate the great circle distance between two points
