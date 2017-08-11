@@ -26,7 +26,7 @@ pygame.init()
 j = pygame.joystick.Joystick(0)
 j.init()
 
-print 'Initialized Joystick : %s' % j.get_name()
+print('Initialized Joystick : %s' % j.get_name())
 
 def roundup(x):
     return int(math.ceil(x / 10.0)) * 10

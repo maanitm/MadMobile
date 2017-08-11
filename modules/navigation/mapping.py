@@ -12,13 +12,7 @@ class Mapping(object):
     def __init__(self):
         pass
 
-    # convert address to coordinate using GMaps Geocode API
-    def addressToCoordinate(self, address):
-        geocode = self.gmaps.geocode(address)
-        return [geocode[0]['geometry']['location']['lat'], geocode[0]['geometry']['location']['lng']]
-
-    # convert a route to geojson using Mapbox Direction API then coordinates from LineString
-    def routeCoordinates(self, fromLoc, toLoc):
+    def getDirection(self, fromLoc, toLoc):
         loc1 = self.addressToCoordinate(fromLoc)
         loc2 = self.addressToCoordinate(toLoc)
 
@@ -40,14 +34,34 @@ class Mapping(object):
             }
         }
 
-        response = service.directions([origin, destination], 'mapbox.driving')
+        return service.directions([origin, destination], 'mapbox.walking')
+
+    def distanceBetweeenLocations(self,fromLoc, toLoc):
+        response = self.getDirection(fromLoc, toLoc)
+        routes = response.geojson()
+        return routes['features'][0]['properties']['distance']
+
+    # convert address to coordinate using GMaps Geocode API
+    def addressToCoordinate(self, address):
+        geocode = self.gmaps.geocode(address)
+        return [geocode[0]['geometry']['location']['lat'], geocode[0]['geometry']['location']['lng']]
+
+    # convert a route to geojson using Mapbox Direction API then coordinates from LineString
+    def routeCoordinates(self, fromLoc, toLoc):
+        response = self.getDirection(fromLoc, toLoc)
+
         routes = response.geojson()
 
         return routes['features'][0]['geometry']['coordinates']
 
     # get altitude of each coordinate in array using GMaps Elevation API
     def altitudesFromCoordinates(self, coordinates):
-            altitudes = self.gmaps.elevation_along_path(coordinates, len(coordinates))
+            if len(coordinates) < 512:
+                altitudes = self.gmaps.elevation_along_path(coordinates, len(coordinates))
+            else:
+                altitudes = []
+                for coord in coordinates:
+                    altitudes.append(self.gmaps.elevation([coord])[0])
             return altitudes
 
     # get distance between lat and lon of 2 coordinates (default to imperial system)
