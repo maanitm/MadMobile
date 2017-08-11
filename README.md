@@ -14,5 +14,11 @@ Follow https://google.github.io/styleguide/pyguide.html for Python changes.
 ### Compatibility
 This project is specifically for a certain hardware setup and is public for research purposes. For more information on how to contribute or to provide feedback, contact me@maanit.me
 
+### Prerequisites
+- Python 3.x
+- mapbox python module
+- googlemaps python module
+- geojsonio python module
+
 ### Usage
     python /path/to/madmobile/main.py
