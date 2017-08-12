@@ -18,6 +18,8 @@ def autoCanny(image, sigma=0.33):
     return edged
 
 def run():
+    print("Sidewalk Tracking Test")
+
     camera = cv2.VideoCapture(1)
 
     while True:
