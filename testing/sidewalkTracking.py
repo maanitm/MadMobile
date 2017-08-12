@@ -5,7 +5,7 @@ import glob
 import cv2
 import imutils
 
-def auto_canny(image, sigma=0.33):
+def autoCanny(image, sigma=0.33):
     # compute the median of the single channel pixel intensities
     v = np.median(image)
 
@@ -32,7 +32,7 @@ while True:
     # threshold, and automatically determined threshold
     wide = cv2.Canny(blurred, 10, 200)
     tight = cv2.Canny(blurred, 225, 250)
-    auto = auto_canny(blurred)
+    auto = autoCanny(blurred)
 
     # display an array of chosen thresholds
     frame = np.hstack([auto])
