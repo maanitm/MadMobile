@@ -17,32 +17,32 @@ def autoCanny(image, sigma=0.33):
     # return the edged image
     return edged
 
-camera = cv2.VideoCapture(0)
+def run():
+    camera = cv2.VideoCapture(1)
 
-while True:
-    (grabbed, cam) = camera.read()
+    while True:
+        (grabbed, cam) = camera.read()
 
-    # resize the camera frame to 1000px width
-    cam = imutils.resize(cam, width=1000)
-    # load the image, convert it to grayscale, and blur it slightly
-    gray = cv2.cvtColor(cam, cv2.COLOR_BGR2GRAY)
-    blurred = cv2.GaussianBlur(gray, (3, 3), 0)
+        cam = imutils.resize(cam, width=1000)
+        # load the image, convert it to grayscale, and blur it slightly
+        gray = cv2.cvtColor(cam, cv2.COLOR_BGR2GRAY)
+        blurred = cv2.GaussianBlur(gray, (3, 3), 0)
 
-    # apply Canny edge detection using a wide threshold, tight
-    # threshold, and automatically determined threshold
-    wide = cv2.Canny(blurred, 10, 200)
-    tight = cv2.Canny(blurred, 225, 250)
-    auto = autoCanny(blurred)
+        # apply Canny edge detection using a wide threshold, tight
+        # threshold, and automatically determined threshold
+        wide = cv2.Canny(blurred, 10, 200)
+        tight = cv2.Canny(blurred, 225, 250)
+        auto = autoCanny(blurred)
 
-    # display an array of chosen thresholds
-    frame = np.hstack([auto])
-    frame = imutils.resize(frame, width=1000)
-    # show the images
-    cv2.imshow("Original", cam)
-    cv2.imshow("Edges", frame)
-    key = cv2.waitKey(1) & 0xFF
-    if key == ord("q"):
-        break
+        cam = imutils.resize(cam, width=1000)
+        frame = np.hstack([auto])
+        frame = imutils.resize(frame, width=1000)
+        # show the images
+        cv2.imshow("Original", cam)
+        cv2.imshow("Edges", frame)
+        key = cv2.waitKey(1) & 0xFF
+        if key == ord("q"):
+            break
 
-camera.release()
-cv2.destroyAllWindows()
+    camera.release()
+    cv2.destroyAllWindows()
