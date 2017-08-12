@@ -17,7 +17,7 @@ def auto_canny(image, sigma=0.33):
     # return the edged image
     return edged
 
-camera = cv2.VideoCapture(1)
+camera = cv2.VideoCapture(0)
 
 while True:
     (grabbed, cam) = camera.read()

@@ -19,6 +19,9 @@ This project is specifically for a certain hardware setup and is public for rese
 - mapbox python module
 - googlemaps python module
 - geojsonio python module
+- opencv 3 python module
+- imutils python module
+- numpy python module
 
 ### Usage
     python /path/to/madmobile/main.py
