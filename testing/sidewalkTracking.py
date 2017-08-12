@@ -22,6 +22,7 @@ camera = cv2.VideoCapture(1)
 while True:
     (grabbed, cam) = camera.read()
 
+    # resize the camera frame to 1000px width
     cam = imutils.resize(cam, width=1000)
     # load the image, convert it to grayscale, and blur it slightly
     gray = cv2.cvtColor(cam, cv2.COLOR_BGR2GRAY)
@@ -33,7 +34,7 @@ while True:
     tight = cv2.Canny(blurred, 225, 250)
     auto = auto_canny(blurred)
 
-    cam = imutils.resize(cam, width=1000)
+    # display an array of chosen thresholds
     frame = np.hstack([auto])
     frame = imutils.resize(frame, width=1000)
     # show the images
