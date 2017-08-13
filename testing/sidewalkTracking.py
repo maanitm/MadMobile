@@ -17,10 +17,10 @@ def autoCanny(image, sigma=0.33):
     # return the edged image
     return edged
 
-def run():
+def run(capturePort):
     print("Sidewalk Tracking Test")
 
-    camera = cv2.VideoCapture(1)
+    camera = cv2.VideoCapture(capturePort)
 
     while True:
         (grabbed, cam) = camera.read()
