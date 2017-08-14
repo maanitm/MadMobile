@@ -5,7 +5,7 @@ import geojsonio
 import json
 
 def run(start, end):
-    print("Battery Simulation")
+    print("Navigation Simulation")
 
     maps = mapping.Mapping()
 
