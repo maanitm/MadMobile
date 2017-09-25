@@ -1,6 +1,6 @@
 # import packages to run
 import const
-# from sim import navSimulation
+# from testing import navSimulation
 # from testing import sidewalkTracking
 
 print(const.projectName)
