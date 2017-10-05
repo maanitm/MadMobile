@@ -3,6 +3,7 @@ import time
 import pygame
 from gpiozero import DistanceSensor
 import const
+from os import sys
 
 print(const.projectName)
 
