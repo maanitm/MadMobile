@@ -5,7 +5,7 @@ from gpiozero import DistanceSensor
 import const
 from os import sys
 
-print(const.projectName)
+print("Raspberry Pi Master")
 
 # for RPI version 1, use "bus = smbus.SMBus(0)"
 bus = smbus.SMBus(1)
