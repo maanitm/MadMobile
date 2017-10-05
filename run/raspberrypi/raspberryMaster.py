@@ -42,6 +42,7 @@ def setSpeed(speed):
     time.sleep(0.1)
 
 def getJoystickXValue():
+    value = 0
     events = pygame.event.get()
     for event in events:
         if event.type == pygame.JOYAXISMOTION:
