@@ -115,5 +115,3 @@ def startDrive():
         writeNumber(0)
         j.quit()#!/usr/bin/env python
         pygame.quit()
-
-startDrive()
