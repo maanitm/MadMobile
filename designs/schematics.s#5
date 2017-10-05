@@ -6869,6 +6869,13 @@ Source: www.kingbright.com</description>
 <pinref part="DIGIPOT1" gate="A" pin="P0B"/>
 <wire x1="15.24" y1="60.96" x2="48.26" y2="60.96" width="0.1524" layer="91"/>
 <wire x1="48.26" y1="60.96" x2="48.26" y2="35.56" width="0.1524" layer="91"/>
+<pinref part="RASPBERRY_PI_TWO1" gate="G$1" pin="GND@39"/>
+<wire x1="203.2" y1="55.88" x2="203.2" y2="53.34" width="0.1524" layer="91"/>
+<wire x1="203.2" y1="53.34" x2="208.28" y2="53.34" width="0.1524" layer="91"/>
+<wire x1="208.28" y1="53.34" x2="208.28" y2="88.9" width="0.1524" layer="91"/>
+<wire x1="208.28" y1="88.9" x2="81.28" y2="88.9" width="0.1524" layer="91"/>
+<wire x1="81.28" y1="88.9" x2="81.28" y2="35.56" width="0.1524" layer="91"/>
+<wire x1="81.28" y1="35.56" x2="48.26" y2="35.56" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$4" class="0">
@@ -6879,9 +6886,8 @@ Source: www.kingbright.com</description>
 <pinref part="ULTRASONIC1" gate="J_ULTRASONIC" pin="5V"/>
 <wire x1="-20.32" y1="-58.42" x2="-25.4" y2="-58.42" width="0.1524" layer="91"/>
 <wire x1="-25.4" y1="-58.42" x2="-25.4" y2="-66.04" width="0.1524" layer="91"/>
-<wire x1="-25.4" y1="-66.04" x2="50.8" y2="-66.04" width="0.1524" layer="91"/>
-<wire x1="50.8" y1="-66.04" x2="50.8" y2="15.24" width="0.1524" layer="91"/>
-<wire x1="50.8" y1="15.24" x2="48.26" y2="15.24" width="0.1524" layer="91"/>
+<wire x1="-25.4" y1="-66.04" x2="48.26" y2="-66.04" width="0.1524" layer="91"/>
+<wire x1="48.26" y1="-66.04" x2="48.26" y2="15.24" width="0.1524" layer="91"/>
 <pinref part="DIGIPOT1" gate="A" pin="VDD"/>
 <wire x1="-20.32" y1="63.5" x2="-22.86" y2="63.5" width="0.1524" layer="91"/>
 <wire x1="-22.86" y1="63.5" x2="-22.86" y2="78.74" width="0.1524" layer="91"/>
@@ -6891,6 +6897,9 @@ Source: www.kingbright.com</description>
 <pinref part="DIGIPOT1" gate="A" pin="P0A"/>
 <wire x1="15.24" y1="63.5" x2="55.88" y2="63.5" width="0.1524" layer="91"/>
 <wire x1="55.88" y1="63.5" x2="55.88" y2="15.24" width="0.1524" layer="91"/>
+<pinref part="LED1" gate="G$1" pin="C"/>
+<wire x1="71.12" y1="40.64" x2="71.12" y2="15.24" width="0.1524" layer="91"/>
+<wire x1="71.12" y1="15.24" x2="55.88" y2="15.24" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$9" class="0">
@@ -6914,6 +6923,26 @@ Source: www.kingbright.com</description>
 <junction x="71.12" y="58.42"/>
 <pinref part="LED1" gate="G$1" pin="A"/>
 <junction x="71.12" y="48.26"/>
+</segment>
+</net>
+<net name="N$7" class="0">
+<segment>
+<pinref part="RASPBERRY_PI_TWO1" gate="G$1" pin="GPIO2"/>
+<wire x1="111.76" y1="55.88" x2="111.76" y2="53.34" width="0.1524" layer="91"/>
+<wire x1="111.76" y1="53.34" x2="76.2" y2="53.34" width="0.1524" layer="91"/>
+<wire x1="76.2" y1="53.34" x2="76.2" y2="5.08" width="0.1524" layer="91"/>
+<pinref part="ARDUINO_NANO1" gate="G$1" pin="A4"/>
+<wire x1="76.2" y1="5.08" x2="17.78" y2="5.08" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$8" class="0">
+<segment>
+<pinref part="RASPBERRY_PI_TWO1" gate="G$1" pin="GPIO3"/>
+<wire x1="116.84" y1="55.88" x2="116.84" y2="50.8" width="0.1524" layer="91"/>
+<wire x1="116.84" y1="50.8" x2="78.74" y2="50.8" width="0.1524" layer="91"/>
+<wire x1="78.74" y1="50.8" x2="78.74" y2="7.62" width="0.1524" layer="91"/>
+<pinref part="ARDUINO_NANO1" gate="G$1" pin="A5"/>
+<wire x1="78.74" y1="7.62" x2="17.78" y2="7.62" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
