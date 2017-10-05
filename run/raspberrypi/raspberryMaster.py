@@ -81,6 +81,7 @@ def cruiseControl():
     return driveV
 
 def stopDrive():
+    global stopped
     stopped = True
     writeNumber(0)
     print("Stopping ...")
@@ -89,6 +90,8 @@ def stopDrive():
     sys.exit()
 
 def startDrive():
+    global stopped
+    global manual
     try:
         while not stopped:
             if not manual:
