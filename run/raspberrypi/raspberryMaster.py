@@ -30,9 +30,11 @@ j = pygame.joystick.Joystick(0)
 j.init()
 
 def setup():
+    global manual
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(TRIG, GPIO.OUT)
     GPIO.setup(ECHO, GPIO.IN)
+    manual = True
 def distance():
     GPIO.output(TRIG, 0)
     time.sleep(0.000002)
@@ -145,10 +147,10 @@ def driveLoop():
                 setSpeed(currentSpeed)
 
             if j.get_button(3):
-		    if not manual:
-		        manual = True
-		    else:
-		        manual = False
+		if not manual:
+		    manual = True
+		else:
+		    manual = False
 
             if j.get_button(16):
                 stopDrive()
