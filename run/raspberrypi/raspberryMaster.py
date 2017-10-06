@@ -159,6 +159,7 @@ def driveLoop():
         stopDrive()
 
 def startDrive():
+    setup()
     t1 = Thread(target = driveLoop)
     t2 = Thread(target = distanceLoop)
 
