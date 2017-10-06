@@ -4,6 +4,7 @@ import pygame
 import const
 from os import sys
 import RPi.GPIO as GPIO
+import gpiozero
 from threading import Thread
 
 print("Raspberry Pi Master")
@@ -27,6 +28,8 @@ pygame.init()
 # Connect to the first JoyStick
 j = pygame.joystick.Joystick(0)
 j.init()
+
+ultrasonic = DistanceSensor(echo = ECHO, trigger = TRIG, max_distance = 4)
 
 def setup():
     GPIO.setmode(GPIO.BCM)
@@ -161,10 +164,14 @@ def driveLoop():
     except KeyboardInterrupt:
         stopDrive()
 
-def startDrive():
-    setup()
-    t1 = Thread(target = driveLoop)
-    t2 = Thread(target = distanceLoop)
+def printFound():
+    print("Found")
 
-    t1.start()
-    t2.start()
+def startDrive():
+    # setup()
+    # t1 = Thread(target = driveLoop)
+    # t2 = Thread(target = distanceLoop)
+    #
+    # t1.start()
+    # t2.start()
+    ultrasonic.when_in_range = printFound
