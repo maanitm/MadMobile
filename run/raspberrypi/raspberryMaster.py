@@ -43,6 +43,7 @@ def distance():
     start = time.time()
 
     while GPIO.input(ECHO)==0:    #Wait for the echo to go high- starting the measurement.
+        print("1")
         pass
 
     start = time.time()
