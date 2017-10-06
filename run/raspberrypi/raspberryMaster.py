@@ -29,11 +29,10 @@ j = pygame.joystick.Joystick(0)
 j.init()
 
 def setup():
-    global manual
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(TRIG, GPIO.OUT)
     GPIO.setup(ECHO, GPIO.IN)
-    manual = True
+
 def distance():
     GPIO.output(TRIG, 0)
     time.sleep(0.000002)
@@ -45,7 +44,8 @@ def distance():
     skipped = False
     while GPIO.input(ECHO) == 0:
         a = 0
-        if time.time() - startCheck > 5:
+        print(time.time() - startCheck)
+        if time.time() - startCheck > 3:
             skipped = True
             continue
     time1 = time.time()
@@ -96,7 +96,6 @@ def manualDrive():
     return driveV
 
 def cruiseControl():
-    print(currentSpeed)
     # stopDif = const.cruiseMaxStopDistance - const.cruiseMinStopDistance
     # stopDistance = (currentSpeed - const.motorZeroSpeed) * 14.8148148148
     #
@@ -115,7 +114,6 @@ def cruiseControl():
 
     driveV = int(27/frontDistance) + 75
 
-    print(driveV)
     return driveV
 
 def stopDrive():
@@ -149,14 +147,12 @@ def driveLoop():
             else:
                 currentSpeed = manualDrive()
 
-	    print currentSpeed, "111111111111111"
             if not currentSpeed and currentSpeed is not 0:
                 continue
 
             if currentSpeed <= const.motorMaxSpeed and currentSpeed >= const.motorZeroSpeed:
                 setSpeed(currentSpeed)
 
-	    print currentSpeed, "2222222222222"
             if j.get_button(0):
                 manual = True
 	    if j.get_button(3):
