@@ -138,20 +138,20 @@ def driveLoop():
             else:
                 currentSpeed = manualDrive()
 
-                if not currentSpeed and currentSpeed is not 0:
-                    continue
+            if not currentSpeed and currentSpeed is not 0:
+                continue
 
-                if currentSpeed <= const.motorMaxSpeed and currentSpeed >= const.motorZeroSpeed:
-                    setSpeed(currentSpeed)
+            if currentSpeed <= const.motorMaxSpeed and currentSpeed >= const.motorZeroSpeed:
+                setSpeed(currentSpeed)
 
-                if j.get_button(3):
-    		    if not manual:
-    		        manual = True
-    		    else:
-    		        manual = False
+            if j.get_button(3):
+		    if not manual:
+		        manual = True
+		    else:
+		        manual = False
 
-                if j.get_button(16):
-                    stopDrive()
+            if j.get_button(16):
+                stopDrive()
 
     except KeyboardInterrupt:
         stopDrive()
