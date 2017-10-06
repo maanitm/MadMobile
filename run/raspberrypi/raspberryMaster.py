@@ -129,7 +129,7 @@ def distanceLoop():
         while not stopped:
             frontDistance = distance()
             print(frontDistance)
-            time.sleep(0.3)
+            time.sleep(2)
     except KeyboardInterrupt:
         stopDrive()
 
