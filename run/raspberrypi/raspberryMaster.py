@@ -79,6 +79,8 @@ def manualDrive():
     driveV = driveV + 75
     if driveV > 128:
         driveV = 128
+    if driveV < 0:
+        driveV = const.motorZeroSpeed
 
     return driveV
 
