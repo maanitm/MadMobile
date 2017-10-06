@@ -28,7 +28,7 @@ j = pygame.joystick.Joystick(0)
 j.init()
 
 def setup():
-    GPIO.setmode(GPIO.BOARD)
+    GPIO.setmode(GPIO.BCM)
     GPIO.setup(TRIG, GPIO.OUT)
     GPIO.setup(ECHO, GPIO.IN)
 def distance():
@@ -38,14 +38,14 @@ def distance():
     time.sleep(0.00001)
     GPIO.output(TRIG, 0)
 
-while GPIO.input(ECHO) == 0:
-a = 0
-time1 = time.time()
-while GPIO.input(ECHO) == 1:
-a = 1
-time2 = time.time()
-during = time2 - time1
-return during * 340 / 2 * 100
+    while GPIO.input(ECHO) == 0:
+        a = 0
+        time1 = time.time()
+    while GPIO.input(ECHO) == 1:
+        a = 1
+        time2 = time.time()
+    during = time2 - time1
+    return during * 340 / 2 * 100
 
 def writeNumber(value):
   bus.write_byte(address, value)
@@ -122,11 +122,11 @@ def startDrive():
     global manual
     global currentSpeed
     try:
-	    dis = distance()
-        print(dis, "cm")
-        print("")
-        time.sleep(0.3)
         while not stopped:
+	    dis = distance()
+            print(dis, "cm")
+            print("")
+            time.sleep(0.3)
             if not manual:
         	print("1")
                 currentSpeed = cruiseControl()
