@@ -83,21 +83,20 @@ def manualDrive():
     return driveV
 
 def cruiseControl():
-    global currentSpeed
     print(currentSpeed)
-    #stopDif = const.cruiseMaxStopDistance - const.cruiseMinStopDistance
-    #stopDistance = (currentSpeed - const.motorZeroSpeed) * 14.8148148148
-
-    #if stopDistance < const.cruiseMinStopDistance:
+    # stopDif = const.cruiseMaxStopDistance - const.cruiseMinStopDistance
+    # stopDistance = (currentSpeed - const.motorZeroSpeed) * 14.8148148148
+    #
+    # if stopDistance < const.cruiseMinStopDistance:
     #    stopDistance = const.cruiseMinStopDistance
-    #if stopDistance > const.cruiseMaxStopDistance:
+    # if stopDistance > const.cruiseMaxStopDistance:
     #    stopDistance = const.cruiseMaxStopDistance
-
-    #if distance < stopDistance:
+    #
+    # if distance < stopDistance:
     #    driveV = const.motorZeroSpeed
-    #elif distance <= 4 and distance > stopDistance:
+    # elif distance <= 4 and distance > stopDistance:
     #    driveV = int(distance/0.3) + const.motorZeroSpeed
-    #else:
+    # else:
     #    if driveV + const.cruiseSpeedIncrement < const.cruiseTopSpeed:
     #        driveV += const.cruiseSpeedIncrement
 
@@ -121,8 +120,7 @@ def distanceLoop():
     try:
         while not stopped:
             frontDistance = distance()
-            print frontDistance, "cm"
-            print("")
+            print(frontDistance)
             time.sleep(0.3)
     except KeyboardInterrupt:
         stopDrive()
@@ -134,9 +132,7 @@ def driveLoop():
     try:
         while not stopped:
             if not manual:
-        	print("1")
                 currentSpeed = cruiseControl()
-        	print("2")
             else:
                 currentSpeed = manualDrive()
 
