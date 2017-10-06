@@ -18,7 +18,6 @@ stopped = False
 currentSpeed = 0
 manual = True
 frontDistance = 400
-click = False
 TRIG = 4
 ECHO = 17
 
@@ -140,7 +139,6 @@ def distanceLoop():
         stopDrive()
 
 def driveLoop():
-    global click
     global stopped
     global manual
     global currentSpeed
@@ -159,17 +157,11 @@ def driveLoop():
 
 	    print(click)
 
+        if j.get_button(0):
+            manual = True
 	    if j.get_button(3):
-		if not click:
-		    click = True
-		    continue
-		if not manual and click:
-		    manual = True
-		    click = False
-		elif manual and click:
-		    manual = False
-		    click = False
-        	print(click)
+            manual = False
+
             if j.get_button(16):
                 stopDrive()
 
