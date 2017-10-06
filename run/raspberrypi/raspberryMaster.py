@@ -40,12 +40,13 @@ def distance():
     time.sleep(0.00001)
     GPIO.output(TRIG, 0)
 
+    startCheck = 0
     startCheck = time.time()
     skipped = False
     while GPIO.input(ECHO) == 0:
         a = 0
         print(time.time() - startCheck)
-        if time.time() - startCheck > 3:
+        if int(time.time() - startCheck) > 3:
             skipped = True
             continue
     time1 = time.time()
