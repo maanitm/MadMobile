@@ -149,19 +149,18 @@ def driveLoop():
             else:
                 currentSpeed = manualDrive()
 
+	    print currentSpeed, "111111111111111"
             if not currentSpeed and currentSpeed is not 0:
                 continue
 
             if currentSpeed <= const.motorMaxSpeed and currentSpeed >= const.motorZeroSpeed:
                 setSpeed(currentSpeed)
 
-	    print(click)
-
-        if j.get_button(0):
-            manual = True
+	    print currentSpeed, "2222222222222"
+            if j.get_button(0):
+                manual = True
 	    if j.get_button(3):
-            manual = False
-
+                manual = False
             if j.get_button(16):
                 stopDrive()
 
