@@ -4,6 +4,7 @@ import pygame
 import const
 from os import sys
 import RPi.GPIO as GPIO
+from threading import Thread
 
 print("Raspberry Pi Master")
 
@@ -16,6 +17,7 @@ address = 0x04
 stopped = False
 currentSpeed = 0
 manual = True
+frontDistance = 400
 
 TRIG = 4
 ECHO = 17
@@ -91,9 +93,6 @@ def cruiseControl():
     #if stopDistance > const.cruiseMaxStopDistance:
     #    stopDistance = const.cruiseMaxStopDistance
 
-    distance = ultrasonic.distance
-    print(distance)
-
     #if distance < stopDistance:
     #    driveV = const.motorZeroSpeed
     #elif distance <= 4 and distance > stopDistance:
@@ -102,7 +101,7 @@ def cruiseControl():
     #    if driveV + const.cruiseSpeedIncrement < const.cruiseTopSpeed:
     #        driveV += const.cruiseSpeedIncrement
 
-    driveV = int(27/distance) + 75
+    driveV = int(27/frontDistance) + 75
 
     print(driveV)
     return driveV
@@ -117,16 +116,23 @@ def stopDrive():
     pygame.quit()
     sys.exit()
 
-def startDrive():
+def distanceLoop():
+    global frontDistance
+    try:
+        while not stopped:
+            frontDistance = distance()
+            print dis, "cm"
+            print("")
+            time.sleep(0.3)
+    except KeyboardInterrupt:
+        stopDrive()
+
+def driveLoop():
     global stopped
     global manual
     global currentSpeed
     try:
         while not stopped:
-	    dis = distance()
-            print(dis, "cm")
-            print("")
-            time.sleep(0.3)
             if not manual:
         	print("1")
                 currentSpeed = cruiseControl()
@@ -151,3 +157,10 @@ def startDrive():
 
     except KeyboardInterrupt:
         stopDrive()
+
+def startDrive():
+    t1 = Thread(target = driveLoop)
+    t2 = Thread(target = distanceLoop)
+
+    t1.start()
+    t2.start()
