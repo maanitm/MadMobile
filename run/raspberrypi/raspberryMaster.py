@@ -3,6 +3,8 @@ import time
 import pygame
 import const
 from os import sys
+import RPi.GPIO as GPIO
+GPIO.setmode(GPIO.BCM)
 
 print("Raspberry Pi Master")
 
@@ -103,15 +105,13 @@ def startDrive():
     global manual
     global currentSpeed
     try:
+	GPIO.output(TRIG, False)                 #Set TRIG as LOW
+        print "Waitng For Sensor To Settle"
+        time.sleep(2)
         while not stopped:
-    	    GPIO.output(TRIG, False)                 #Set TRIG as LOW
-            print "Waitng For Sensor To Settle"
-            time.sleep(2)                            #Delay of 2 seconds
-
-            GPIO.output(TRIG, True)                  #Set TRIG as HIGH
+	    GPIO.output(TRIG, True)                  #Set TRIG as HIGH
             time.sleep(0.00001)                      #Delay of 0.00001 seconds
-            GPIO.output(TRIG, False)                 #Set TRIG as LOW
-
+            GPIO.output(TRIG, False)
             while GPIO.input(ECHO)==0:               #Check whether the ECHO is LOW
                 pulse_start = time.time()              #Saves the last known time of LOW pulse
 
@@ -128,9 +128,9 @@ def startDrive():
             else:
                 print "Out Of Range"
             if not manual:
-        		print("1")
-                    currentSpeed = cruiseControl()
-        		print("2")
+        	print("1")
+                currentSpeed = cruiseControl()
+        	print("2")
             else:
                 currentSpeed = manualDrive()
 
@@ -141,10 +141,10 @@ def startDrive():
                     setSpeed(currentSpeed)
 
                 if j.get_button(3):
-    		        if not manual:
-    		            manual = True
-    		        else:
-    		            manual = False
+    		    if not manual:
+    		        manual = True
+    		    else:
+    		        manual = False
 
                 if j.get_button(16):
                     stopDrive()
