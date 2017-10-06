@@ -121,7 +121,7 @@ def distanceLoop():
     try:
         while not stopped:
             frontDistance = distance()
-            print dis, "cm"
+            print frontDistance, "cm"
             print("")
             time.sleep(0.3)
     except KeyboardInterrupt:
