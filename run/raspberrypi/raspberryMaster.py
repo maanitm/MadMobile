@@ -44,6 +44,7 @@ def distance():
     print("1")
     while GPIO.input(ECHO) == 0:
         print("2")
+        continue
         a = 0
     print("3")
     time1 = time.time()
