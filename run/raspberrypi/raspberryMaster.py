@@ -42,14 +42,24 @@ def distance():
     time.sleep(0.00001)
     GPIO.output(TRIG, 0)
 
+    startCheck = time.time()
+    skipped = False
     while GPIO.input(ECHO) == 0:
         a = 0
+        if time.time() - startCheck > 5:
+            skipped = True
+            continue
     time1 = time.time()
     while GPIO.input(ECHO) == 1:
+        if skipped:
+            continue
         a = 1
-    time2 = time.time()
-    during = time2 - time1
-    return during * 340 / 2 * 100
+    if not skipped:
+        time2 = time.time()
+        during = time2 - time1
+        return during * 340 / 2 * 100
+    else:
+        return 3000
 
 def writeNumber(value):
   bus.write_byte(address, value)
