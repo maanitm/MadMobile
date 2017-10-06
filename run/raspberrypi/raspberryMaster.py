@@ -153,7 +153,7 @@ def driveLoop():
 
             if j.get_button(0):
                 manual = True
-	    if j.get_button(3):
+            if j.get_button(3):
                 manual = False
             if j.get_button(16):
                 stopDrive()
