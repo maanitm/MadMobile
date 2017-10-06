@@ -174,5 +174,5 @@ def startDrive():
     #
     # t1.start()
     # t2.start()
-    while true:
+    while True:
         ultrasonic.when_in_range = printFound
