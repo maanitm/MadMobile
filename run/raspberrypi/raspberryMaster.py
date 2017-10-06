@@ -4,7 +4,7 @@ import pygame
 import const
 from os import sys
 import RPi.GPIO as GPIO
-import gpiozero
+from gpiozero import DistanceSensor
 from threading import Thread
 
 print("Raspberry Pi Master")
