@@ -42,12 +42,12 @@ def distance():
 
     start = time.time()
 
-    while GPIO.input(echoPin)==0:    #Wait for the echo to go high- starting the measurement.
+    while GPIO.input(ECHO)==0:    #Wait for the echo to go high- starting the measurement.
         pass
 
     start = time.time()
 
-    while GPIO.input(echoPin)==1:    #Wait for the echo to go low
+    while GPIO.input(ECHO)==1:    #Wait for the echo to go low
         pass
 
     stop = time.time()
