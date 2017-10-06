@@ -45,7 +45,7 @@ def distance():
     skipped = False
     while GPIO.input(ECHO) == 0:
         a = 0
-        print(time.time() - startCheck)
+        # print(time.time() - startCheck)
         if int(time.time() - startCheck) > 3:
             skipped = True
             continue
