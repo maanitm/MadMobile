@@ -4,8 +4,8 @@ import pygame
 import const
 from os import sys
 import RPi.GPIO as GPIO
-from gpiozero import DistanceSensor
 from threading import Thread
+import RPIO
 
 print("Raspberry Pi Master")
 
@@ -28,8 +28,6 @@ pygame.init()
 # Connect to the first JoyStick
 j = pygame.joystick.Joystick(0)
 j.init()
-
-ultrasonic = DistanceSensor(echo = ECHO, trigger = TRIG, max_distance = 4)
 
 def setup():
     GPIO.setmode(GPIO.BCM)
@@ -167,6 +165,20 @@ def driveLoop():
 def printFound():
     print("Found")
 
+RPIO.setup(ECHO,RPIO.IN)
+RPIO.setup(ECHO,RPIO.IN,pull_up_down=RPIO.PUD_DOWN)
+def measure():
+
+  while RPIO.input(ECHO) ==0:
+    start = time.time()
+
+  while RPIO.input(ECHO) ==1:
+    stop = time.time()
+
+  distance = (stop-start)*34326.0/2.0
+
+  return distance
+
 def startDrive():
     # setup()
     # t1 = Thread(target = driveLoop)
@@ -174,5 +186,16 @@ def startDrive():
     #
     # t1.start()
     # t2.start()
-    while True:
-        ultrasonic.when_in_range = printFound
+
+    print('Start of blinking...')
+    try:
+
+      while True:
+          distance = measure()
+
+          print ("Distance : %.10f" % distance)
+
+    except KeyboardInterrupt:
+      # User pressed CTRL-C
+      # Reset GPIO settings
+      GPIO.cleanup()
