@@ -49,6 +49,6 @@ int digitalPotWrite(int value) {
 }
 
 // callback for sending data
-void sendData(int value) {
-  Wire.write(value);
+void sendData() {
+  Wire.write(motorSpeed);
 }
