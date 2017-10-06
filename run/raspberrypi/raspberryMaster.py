@@ -148,8 +148,10 @@ def driveLoop():
 
             if j.get_button(3):
 		if not manual:
+            print("1")
 		    manual = True
 		else:
+            print("2")
 		    manual = False
 
             if j.get_button(16):
