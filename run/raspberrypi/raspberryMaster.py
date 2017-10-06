@@ -165,9 +165,9 @@ def printFound():
     print("Found")
 
 def startDrive():
-    # setup()
-    # t1 = Thread(target = driveLoop)
-    # t2 = Thread(target = distanceLoop)
-    #
-    # t1.start()
-    # t2.start()
+    setup()
+    t1 = Thread(target = driveLoop)
+    t2 = Thread(target = distanceLoop)
+
+    t1.start()
+    t2.start()
