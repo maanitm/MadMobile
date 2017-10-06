@@ -14,8 +14,7 @@ bus = smbus.SMBus(1)
 address = 0x04
 
 stopped = False
-
-distance = 0
+currentSpeed = 0
 manual = True
 
 # Initialise the pygame library
@@ -25,7 +24,7 @@ pygame.init()
 j = pygame.joystick.Joystick(0)
 j.init()
 
-ultrasonic = DistanceSensor(echo=17, trigger=4, max_distance=4)
+ultrasonic = DistanceSensor(echo=17, trigger=4)
 
 def writeNumber(value):
   bus.write_byte(address, value)
@@ -61,24 +60,30 @@ def manualDrive():
     return driveV
 
 def cruiseControl():
-    stopDif = const.cruiseMaxStopDistance - const.cruiseMinStopDistance
-    stopDistance = (currentSpeed - const.motorZeroSpeed) * 14.8148148148
+    global currentSpeed
+    print(currentSpeed)
+    #stopDif = const.cruiseMaxStopDistance - const.cruiseMinStopDistance
+    #stopDistance = (currentSpeed - const.motorZeroSpeed) * 14.8148148148
 
-    if stopDistance < const.cruiseMinStopDistance:
-        stopDistance = const.cruiseMinStopDistance
-    if stopDistance > const.cruiseMaxStopDistance:
-        stopDistance = const.cruiseMaxStopDistance
+    #if stopDistance < const.cruiseMinStopDistance:
+    #    stopDistance = const.cruiseMinStopDistance
+    #if stopDistance > const.cruiseMaxStopDistance:
+    #    stopDistance = const.cruiseMaxStopDistance
 
     distance = ultrasonic.distance
+    print(distance)
 
-    if distance < stopDistance:
-        driveV = const.motorZeroSpeed
-    elif distance <= 4 and distance > stopDistance:
-        driveV = int(distance/0.3) + const.motorZeroSpeed
-    else:
-        if driveV + const.cruiseSpeedIncrement < const.cruiseTopSpeed:
-            driveV += const.cruiseSpeedIncrement
+    #if distance < stopDistance:
+    #    driveV = const.motorZeroSpeed
+    #elif distance <= 4 and distance > stopDistance:
+    #    driveV = int(distance/0.3) + const.motorZeroSpeed
+    #else:
+    #    if driveV + const.cruiseSpeedIncrement < const.cruiseTopSpeed:
+    #        driveV += const.cruiseSpeedIncrement
 
+    driveV = int(27/distance) + 75
+
+    print(driveV)
     return driveV
 
 def stopDrive():
@@ -93,28 +98,33 @@ def stopDrive():
 def startDrive():
     global stopped
     global manual
+    global currentSpeed
     try:
         while not stopped:
+	    distance = ultrasonic.distance
+	    print(distance)
             if not manual:
-                driveV = cruiseControl()
+		print("1")
+                currentSpeed = cruiseControl()
+		print("2")
             else:
-                driveV = manualDrive()
+                currentSpeed = manualDrive()
 
-            if not driveV and driveV is not 0:
+            if not currentSpeed and currentSpeed is not 0:
                 continue
 
-            if driveV > const.motorMaxSpeed:
-                setSpeed(const.motorMaxSpeed)
-                continue
-
-            if driveV >= const.motorZeroSpeed:
-      	        setSpeed(driveV)
+            if currentSpeed <= const.motorMaxSpeed and currentSpeed >= const.motorZeroSpeed:
+                setSpeed(currentSpeed)
 
             if j.get_button(3):
-                manual = True
+		if not manual:
+		    manual = True
+		else:
+		    manual = False
 
             if j.get_button(16):
                 stopDrive()
+
     except KeyboardInterrupt:
         writeNumber(0)
         j.quit()#!/usr/bin/env python
