@@ -145,9 +145,6 @@ def driveLoop():
             else:
                 currentSpeed = manualDrive()
 
-            if not currentSpeed and currentSpeed is not 0:
-                continue
-
             if currentSpeed <= const.motorMaxSpeed and currentSpeed >= const.motorZeroSpeed:
                 setSpeed(currentSpeed)
 
