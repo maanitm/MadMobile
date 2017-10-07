@@ -43,7 +43,6 @@ def distance():
     start = time.time()
 
     while GPIO.input(ECHO)==0:    #Wait for the echo to go high- starting the measurement.
-        print("1")
         pass
 
     start = time.time()
@@ -90,6 +89,8 @@ def manualDrive():
         driveV = 128
     if driveV < 0:
         driveV = const.motorZeroSpeed
+
+    print(driveV)
 
     return driveV
 
@@ -157,9 +158,6 @@ def driveLoop():
 
     except KeyboardInterrupt:
         stopDrive()
-
-def printFound():
-    print("Found")
 
 def startDrive():
     setup()
