@@ -74,6 +74,7 @@ def setSpeed(speed):
     time.sleep(0.1)
 
 def getJoystickXValue():
+    global manual
     global jValue
     jBefore = jValue
     events = pygame.event.get()
@@ -146,7 +147,12 @@ def distanceLoop():
             print(frontDistance)
             time.sleep(0.3)
     except KeyboardInterrupt:
-        stopDrive()
+        writeNumber(0)
+        print("Stopping ...")
+        GPIO.cleanup()
+        j.quit()
+        pygame.quit()
+        sys.exit()
 
 def driveLoop():
     global stopped
@@ -165,7 +171,12 @@ def driveLoop():
             print(manual)
 
     except KeyboardInterrupt:
-        stopDrive()
+        writeNumber(0)
+        print("Stopping ...")
+        GPIO.cleanup()
+        j.quit()
+        pygame.quit()
+        sys.exit()
 
 def startDrive():
     setup()
