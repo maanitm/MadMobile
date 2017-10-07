@@ -83,7 +83,7 @@ def getJoystickXValue():
                 jValue = event.value
 
     if not jValue and jValue is not 0:
- +      return jBefore
+        return jBefore
     return jValue
 
 def manualDrive():
