@@ -18,8 +18,8 @@ stopped = False
 currentSpeed = 0
 manual = True
 frontDistance = 400
-TRIG = 4
-ECHO = 17
+TRIG = 20
+ECHO = 21
 
 # Initialise the pygame library
 pygame.init()
