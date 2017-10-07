@@ -145,10 +145,10 @@ def driveLoop():
     global currentSpeed
     try:
         while not stopped:
-            if not manual:
-                currentSpeed = cruiseControl()
-            else:
+            if manual:
                 currentSpeed = manualDrive()
+            else:
+                currentSpeed = cruiseControl()
 
             if currentSpeed <= const.motorMaxSpeed and currentSpeed >= const.motorZeroSpeed:
                 setSpeed(currentSpeed)
