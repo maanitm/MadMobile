@@ -40,5 +40,5 @@ const.motorZeroSpeed = 75
 const.cruiseSpeedIncrement = 3
 const.cruiseTopSpeed = 102 # maximum allowed
 const.motorMaxSpeed = 128 # maximum capable
-const.cruiseMinStopDistance = 0.5;
-const.cruiseMaxStopDistance = 4;
+const.cruiseMinStopDistance = 50;
+const.cruiseMaxStopDistance = 400;

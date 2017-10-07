@@ -114,17 +114,17 @@ def cruiseControl():
     stopDistance = (currentSpeed - const.motorZeroSpeed) * 14.8148148148
 
     if stopDistance < const.cruiseMinStopDistance:
-       stopDistance = const.cruiseMinStopDistance
+        stopDistance = const.cruiseMinStopDistance
     if stopDistance > const.cruiseMaxStopDistance:
-       stopDistance = const.cruiseMaxStopDistance
+        stopDistance = const.cruiseMaxStopDistance
 
     if frontDistance < stopDistance:
-       driveV = const.motorZeroSpeed
+        driveV = const.motorZeroSpeed
     elif frontDistance <= 400 and frontDistance > stopDistance:
-       driveV = int(frontDistance/30) + const.motorZeroSpeed
+        driveV = int(frontDistance/30) + const.motorZeroSpeed
     else:
-       if driveV + const.cruiseSpeedIncrement < const.cruiseTopSpeed:
-           driveV += const.cruiseSpeedIncrement
+        if driveV + const.cruiseSpeedIncrement < const.cruiseTopSpeed:
+    driveV += const.cruiseSpeedIncrement
 
     # driveV = int(frontDistance/27) + 75
     print driveV
