@@ -88,7 +88,7 @@ def getJoystickXValue():
 
 def manualDrive():
     driveV = getJoystickXValue()
-    
+
     driveV = int(driveV * 53) * -1
     driveV = driveV + 75
     if driveV > 128:
@@ -115,7 +115,7 @@ def cruiseControl():
     #    if driveV + const.cruiseSpeedIncrement < const.cruiseTopSpeed:
     #        driveV += const.cruiseSpeedIncrement
 
-    driveV = int(27/frontDistance) + 75
+    driveV = int(frontDistance/27) + 75
 
     return driveV
 
