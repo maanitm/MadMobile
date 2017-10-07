@@ -16,7 +16,7 @@ address = 0x04
 
 stopped = False
 currentSpeed = 0
-manual = False
+manual = True
 frontDistance = 400
 TRIG = 20
 ECHO = 21
@@ -154,14 +154,15 @@ def driveLoop():
                 setSpeed(currentSpeed)
 
             print(manual)
-            if j.get_button(11) and manual:
-                print("NOT manual")
-                manual = False
-            if j.get_button(10) and not manual:
-                print("manual")
-                manual = True
-            elif j.get_button(16):
-                stopDrive()
+            for event in events:
+                if j.get_button(11) and manual:
+                    print("NOT manual")
+                    manual = False
+                if j.get_button(10) and not manual:
+                    print("manual")
+                    manual = True
+                elif j.get_button(16):
+                    stopDrive()
 
     except KeyboardInterrupt:
         stopDrive()
