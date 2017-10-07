@@ -90,7 +90,7 @@ def manualDrive():
     if driveV < 0:
         driveV = const.motorZeroSpeed
 
-    print(getJoystickXValue)
+    print(getJoystickXValue())
 
     return driveV
 
