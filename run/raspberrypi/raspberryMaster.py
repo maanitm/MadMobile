@@ -154,8 +154,10 @@ def driveLoop():
                 setSpeed(currentSpeed)
 
             if j.get_button(0):
+                print("manual")
                 manual = True
             if j.get_button(3):
+                print("NOT manual")
                 manual = False
             if j.get_button(16):
                 stopDrive()
