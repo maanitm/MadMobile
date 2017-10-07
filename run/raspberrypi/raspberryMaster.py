@@ -83,10 +83,10 @@ def getJoystickXValue():
             if event.axis == 1:
                 jValue = event.value
         if j.get_button(11) and manual:
-            print("NOT manual")
+            print("Cruise")
             manual = False
         if j.get_button(10) and not manual:
-            print("manual")
+            print("Manual")
             manual = True
         elif j.get_button(16):
             stopDrive()
@@ -109,23 +109,23 @@ def manualDrive():
 
 def cruiseControl():
     jValue = getJoystickXValue()
-    # stopDif = const.cruiseMaxStopDistance - const.cruiseMinStopDistance
-    # stopDistance = (currentSpeed - const.motorZeroSpeed) * 14.8148148148
-    #
-    # if stopDistance < const.cruiseMinStopDistance:
-    #    stopDistance = const.cruiseMinStopDistance
-    # if stopDistance > const.cruiseMaxStopDistance:
-    #    stopDistance = const.cruiseMaxStopDistance
-    #
-    # if distance < stopDistance:
-    #    driveV = const.motorZeroSpeed
-    # elif distance <= 4 and distance > stopDistance:
-    #    driveV = int(distance/0.3) + const.motorZeroSpeed
-    # else:
-    #    if driveV + const.cruiseSpeedIncrement < const.cruiseTopSpeed:
-    #        driveV += const.cruiseSpeedIncrement
+    stopDif = const.cruiseMaxStopDistance - const.cruiseMinStopDistance
+    stopDistance = (currentSpeed - const.motorZeroSpeed) * 14.8148148148
 
-    driveV = int(frontDistance/27) + 75
+    if stopDistance < const.cruiseMinStopDistance:
+       stopDistance = const.cruiseMinStopDistance
+    if stopDistance > const.cruiseMaxStopDistance:
+       stopDistance = const.cruiseMaxStopDistance
+
+    if distance < stopDistance:
+       driveV = const.motorZeroSpeed
+   elif distance <= 400 and distance > stopDistance:
+       driveV = int(distance/30) + const.motorZeroSpeed
+    else:
+       if driveV + const.cruiseSpeedIncrement < const.cruiseTopSpeed:
+           driveV += const.cruiseSpeedIncrement
+
+    # driveV = int(frontDistance/27) + 75
 
     return driveV
 
@@ -167,8 +167,6 @@ def driveLoop():
 
             if currentSpeed <= const.motorMaxSpeed and currentSpeed >= const.motorZeroSpeed:
                 setSpeed(currentSpeed)
-
-            print(manual)
 
     except KeyboardInterrupt:
         writeNumber(0)
