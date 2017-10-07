@@ -88,9 +88,7 @@ def getJoystickXValue():
 
 def manualDrive():
     driveV = getJoystickXValue()
-
-    print(driveV)
-
+    
     driveV = int(driveV * 53) * -1
     driveV = driveV + 75
     if driveV > 128:
