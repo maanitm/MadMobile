@@ -127,7 +127,7 @@ def cruiseControl():
             driveV += const.cruiseSpeedIncrement
 
     # driveV = int(frontDistance/27) + 75
-    print driveV
+    print driveV, " driveV"
 
     return driveV
 
@@ -146,7 +146,7 @@ def distanceLoop():
     try:
         while not stopped:
             frontDistance = distance()
-            print(frontDistance)
+            print frontDistance, "cm"
             time.sleep(0.3)
     except KeyboardInterrupt:
         writeNumber(0)
