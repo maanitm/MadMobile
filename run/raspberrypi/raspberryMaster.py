@@ -84,12 +84,13 @@ def manualDrive():
     driveV = getJoystickXValue()
 
     driveV = int(driveV * 53) * -1
+    print(driveV)
     driveV = driveV + 75
     if driveV > 128:
         driveV = 128
     if driveV < 0:
         driveV = const.motorZeroSpeed
-    print(driveV)
+
     return driveV
 
 def cruiseControl():
