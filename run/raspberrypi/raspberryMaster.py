@@ -108,6 +108,7 @@ def manualDrive():
     return driveV
 
 def cruiseControl():
+    driveV = 0
     jValue = getJoystickXValue()
     stopDif = const.cruiseMaxStopDistance - const.cruiseMinStopDistance
     stopDistance = (currentSpeed - const.motorZeroSpeed) * 14.8148148148
