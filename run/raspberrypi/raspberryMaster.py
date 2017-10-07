@@ -124,7 +124,7 @@ def cruiseControl():
         driveV = int(frontDistance/30) + const.motorZeroSpeed
     else:
         if driveV + const.cruiseSpeedIncrement < const.cruiseTopSpeed:
-    driveV += const.cruiseSpeedIncrement
+            driveV += const.cruiseSpeedIncrement
 
     # driveV = int(frontDistance/27) + 75
     print driveV
