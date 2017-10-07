@@ -8,10 +8,9 @@ from threading import Thread
 
 print("Raspberry Pi Master")
 
-# for RPI version 1, use "bus = smbus.SMBus(0)"
 bus = smbus.SMBus(1)
 
-# This is the address we setup in the Arduino Program
+# arduino slave motor address
 address = 0x04
 
 stopped = False
@@ -23,10 +22,8 @@ ECHO = 21
 
 jValue = 0
 
-# Initialise the pygame library
 pygame.init()
 
-# Connect to the first JoyStick
 j = pygame.joystick.Joystick(0)
 j.init()
 
@@ -44,29 +41,26 @@ def distance():
 
     start = time.time()
 
-    while GPIO.input(ECHO)==0:    #Wait for the echo to go high- starting the measurement.
+    while GPIO.input(ECHO)==0:
         pass
 
     start = time.time()
 
-    while GPIO.input(ECHO)==1:    #Wait for the echo to go low
+    while GPIO.input(ECHO)==1:
         pass
 
     stop = time.time()
 
-    # Calculate pulse length
-    elapsed = stop-start
+    elapsed = stop - start
 
     return elapsed * 340 / 2 * 100
 
 def writeNumber(value):
   bus.write_byte(address, value)
-  # bus.write_byte_data(address, 0, value)
   return -1
 
 def readNumber():
   number = bus.read_byte(address)
-  # number = bus.read_byte_data(address, 1)
   return number
 
 def setSpeed(speed):
@@ -129,7 +123,6 @@ def cruiseControl():
         else:
             driveV = currentSpeed
 
-    # driveV = int(frontDistance/27) + 75
     print driveV, " driveV"
 
     return driveV
