@@ -123,7 +123,8 @@ def cruiseControl():
     elif frontDistance <= 400 and frontDistance > stopDistance:
         driveV = int(frontDistance/30) + const.motorZeroSpeed
     else:
-        if driveV + const.cruiseSpeedIncrement < const.cruiseTopSpeed:
+        if currentSpeed + const.cruiseSpeedIncrement < const.cruiseTopSpeed:
+            driveV = currentSpeed
             driveV += const.cruiseSpeedIncrement
 
     # driveV = int(frontDistance/27) + 75
