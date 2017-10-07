@@ -154,6 +154,7 @@ def driveLoop():
                 setSpeed(currentSpeed)
 
             print(manual)
+            events = pygame.event.get()
             for event in events:
                 if j.get_button(11) and manual:
                     print("NOT manual")
