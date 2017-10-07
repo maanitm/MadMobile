@@ -16,7 +16,7 @@ address = 0x04
 
 stopped = False
 currentSpeed = 0
-manual = True
+manual = False
 frontDistance = 400
 TRIG = 20
 ECHO = 21
