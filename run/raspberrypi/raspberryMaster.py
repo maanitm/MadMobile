@@ -75,11 +75,15 @@ def setSpeed(speed):
 
 def getJoystickXValue():
     global jValue
+    jBefore = jValue
     events = pygame.event.get()
     for event in events:
         if event.type == pygame.JOYAXISMOTION:
             if event.axis == 1:
                 jValue = event.value
+
+    if not jValue and jValue is not 0:
+ +      return jBefore
     return jValue
 
 def manualDrive():
