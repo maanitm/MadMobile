@@ -81,6 +81,14 @@ def getJoystickXValue():
         if event.type == pygame.JOYAXISMOTION:
             if event.axis == 1:
                 jValue = event.value
+        if j.get_button(11) and manual:
+            print("NOT manual")
+            manual = False
+        if j.get_button(10) and not manual:
+            print("manual")
+            manual = True
+        elif j.get_button(16):
+            stopDrive()
 
     if not jValue and jValue is not 0:
         return jBefore
@@ -99,6 +107,7 @@ def manualDrive():
     return driveV
 
 def cruiseControl():
+    jValue = getJoystickXValue()
     # stopDif = const.cruiseMaxStopDistance - const.cruiseMinStopDistance
     # stopDistance = (currentSpeed - const.motorZeroSpeed) * 14.8148148148
     #
@@ -154,16 +163,6 @@ def driveLoop():
                 setSpeed(currentSpeed)
 
             print(manual)
-            events = pygame.event.get()
-            for event in events:
-                if j.get_button(11) and manual:
-                    print("NOT manual")
-                    manual = False
-                if j.get_button(10) and not manual:
-                    print("manual")
-                    manual = True
-                elif j.get_button(16):
-                    stopDrive()
 
     except KeyboardInterrupt:
         stopDrive()
