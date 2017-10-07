@@ -127,6 +127,7 @@ def cruiseControl():
            driveV += const.cruiseSpeedIncrement
 
     # driveV = int(frontDistance/27) + 75
+    print driveV
 
     return driveV
 
