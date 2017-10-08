@@ -5,8 +5,12 @@ import const
 from os import sys
 import RPi.GPIO as GPIO
 from threading import Thread
+import MySQLdb
 
 print("Raspberry Pi Master")
+
+db = MySQLdb.connect(host="localhost", user="admin", passwd="madmobile1234", db="madmobile")
+cur = db.cursor()
 
 bus = smbus.SMBus(1)
 
@@ -15,6 +19,7 @@ address = 0x04
 
 stopped = False
 currentSpeed = 0
+phoneSpeed = 0
 manual = True
 frontDistance = 400
 TRIG = 20
@@ -132,6 +137,8 @@ def stopDrive():
     stopped = True
     writeNumber(0)
     print("Stopping ...")
+    cur.close()
+    db.close()
     GPIO.cleanup()
     j.quit()
     pygame.quit()
@@ -142,15 +149,10 @@ def distanceLoop():
     try:
         while not stopped:
             frontDistance = distance()
-            print frontDistance, "cm"
+            print frontDistance,"cm"
             time.sleep(0.3)
     except KeyboardInterrupt:
-        writeNumber(0)
-        print("Stopping ...")
-        GPIO.cleanup()
-        j.quit()
-        pygame.quit()
-        sys.exit()
+        stopDrive()
 
 def driveLoop():
     global stopped
@@ -167,12 +169,24 @@ def driveLoop():
                 setSpeed(currentSpeed)
 
     except KeyboardInterrupt:
-        writeNumber(0)
-        print("Stopping ...")
-        GPIO.cleanup()
-        j.quit()
-        pygame.quit()
-        sys.exit()
+        stopDrive()
+
+def dataLoop():
+    global cur
+    try:
+        while not stopped:
+            cur.execute("SELECT * FROM madmobile.liveData")
+            for row in cur.fetchall() :
+                if row[0] == len(cur.fetchall()) - 1:
+                    objId = str(row[0])
+                    objType = str(row[1])
+                    objValue = str(row[2])
+                    objDate = str(row[3])
+
+                    if objType == "speed":
+                        phoneSpeed = objValue
+    except KeyboardInterrupt:
+        stopDrive()
 
 def startDrive():
     setup()

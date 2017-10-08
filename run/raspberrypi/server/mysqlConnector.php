@@ -33,7 +33,7 @@
     function connect_to_mysql() {
         $servername = "localhost";
         $username = "admin";
-        $password = "maanit3022";
+        $password = "madmobile1234";
         $dbname = "madmobile";
 
         // Create connection
