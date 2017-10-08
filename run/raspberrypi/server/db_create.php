@@ -22,7 +22,7 @@ if (isset($_GET['value']) && isset($_GET['type'])) {
     if ($result) {
         // successfully inserted into database
         $response["success"] = 1;
-        $response["message"] = "Data successfully inserted.";
+        $response["message"] = "Data successfully inserted. ";
 
         // echoing JSON response
         echo json_encode($response);
