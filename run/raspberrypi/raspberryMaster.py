@@ -160,6 +160,7 @@ def driveLoop():
     global currentSpeed
     try:
         while not stopped:
+            print phoneSpeed, "mph"
             if manual:
                 currentSpeed = manualDrive()
             else:
@@ -173,6 +174,7 @@ def driveLoop():
 
 def dataLoop():
     global cur
+    global phoneSpeed
     try:
         while not stopped:
             cur.execute("SELECT * FROM madmobile.liveData")
@@ -192,6 +194,8 @@ def startDrive():
     setup()
     t1 = Thread(target = driveLoop)
     t2 = Thread(target = distanceLoop)
+    t3 = Thread(target = dataLoop)
 
     t1.start()
     t2.start()
+    t3.start()
