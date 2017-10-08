@@ -13,11 +13,12 @@
 
     $value = $_GET['value'];
     $type = $_GET['type'];
+    $date = date('Y-m-d H:i:s');
 
     check_if_empty($_GET['value']);
     check_if_empty($_GET['type']);
 
-    $sql = "INSERT INTO liveData (value, type) VALUES ('" . $value . "', '" . $type . "')";
+    $sql = "INSERT INTO liveData (value, type, date) VALUES ('" . $value . "', '" . $type . "', '" . $date . "')";
 
     if ($conn->query($sql) === TRUE) {
         //
