@@ -36,7 +36,7 @@
     $returnMessage = array("status" => $status, "message" => $message);
 
     header('Content-Type: application/json');
-    echo json_encode($returnMessage);;
+    echo json_encode($returnMessage);
 
     $conn->close();
 ?>
