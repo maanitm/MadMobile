@@ -1,5 +1,7 @@
 <?php
-    error_reporting(0);
+    // error_reporting(0);
+    error_reporting(E_ALL);
+    ini_set('display_errors', 'on');
     include 'mysqlConnector.php';
 
     $conn = connect_to_mysql();
