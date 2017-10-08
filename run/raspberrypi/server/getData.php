@@ -14,19 +14,17 @@
 
     $result = $conn->query($sql);
 
-    $categories = array();
+    $response = array();
 
     if ($result->num_rows > 0) {
         // output data of each row
-        $response = array();
-
         while ($row = mysql_fetch_array($result)) {
             // temp user array
             $liveData = array();
             $liveData["value"] = $row["value"];
             $liveData["type"] = $row["type"];
             $liveData["date"] = $row["date"];
-            
+
             // push single product into final response array
             array_push($response, $liveData);
         }
