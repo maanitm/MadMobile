@@ -7,7 +7,7 @@ if (isset($_GET['value']) && isset($_GET['type'])) {
 
     $value = $_GET['value'];
     $type = $_GET['type'];
-    $date = date('Y-m-d H:i:s');
+    // $date = date('Y-m-d H:i:s');
 
     // include db connect class
     require_once __DIR__ . '/db_connect.php';
@@ -16,7 +16,7 @@ if (isset($_GET['value']) && isset($_GET['type'])) {
     $db = new DB_CONNECT();
 
     // mysql inserting a new row
-    $result = mysql_query("INSERT INTO liveData(value, type, date) VALUES('$value', '$type', '$date')");
+    $result = mysql_query("INSERT INTO liveData(value, type) VALUES('$value', '$type')");
 
     // check if row inserted or not
     if ($result) {
