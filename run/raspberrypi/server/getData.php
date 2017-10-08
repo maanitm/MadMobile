@@ -10,30 +10,35 @@
     // Note: The same encryption key used to encrypt the data must be used to decrypt the data
     define('ENCRYPTION_KEY', '59fccce55b22993129a7bc4dbc61a42c358a29aed0481b19669dbfd4cd97b6df');
 
-    $api_key = $_POST['key'];
-    
-    authenticate_key($api_key, $conn);
-
-    $sql = "SELECT * FROM categories";
+    $sql = "SELECT * FROM liveData";
 
     $result = $conn->query($sql);
 
     $categories = array();
-    
+
     if ($result->num_rows > 0) {
         // output data of each row
-        while($row = $result->fetch_assoc()) {
-            $status = "ok";
-            $message = "categories found";
-            $categories[$row['category']] = $row['color'];
+        $response = array();
+
+        while ($row = mysql_fetch_array($result)) {
+            // temp user array
+            $liveData = array();
+            $liveData["value"] = $row["value"];
+            $liveData["type"] = $row["type"];
+            $liveData["date"] = $row["date"];
+            
+            // push single product into final response array
+            array_push($response, $liveData);
         }
+        $status = "ok";
+        $message = "data found";
     } else {
         $status = "ok";
-        $message = "no categories found";
+        $message = "no data found";
     }
 
-    $returnMessage = array("status" => $status, "message" => $message, "categories" => $categories);
-    
+    $returnMessage = array("status" => $status, "message" => $message, "data" => $response);
+
     header('Content-Type: application/json');
     echo json_encode($returnMessage);
 
