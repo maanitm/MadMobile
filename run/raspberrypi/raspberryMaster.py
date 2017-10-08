@@ -158,6 +158,7 @@ def driveLoop():
     global stopped
     global manual
     global currentSpeed
+    global phoneSpeed
     try:
         while not stopped:
             print phoneSpeed, "mph"
@@ -187,6 +188,8 @@ def dataLoop():
 
                     if objType == "speed":
                         phoneSpeed = objValue
+
+                    print phoneSpeed
     except KeyboardInterrupt:
         stopDrive()
 
