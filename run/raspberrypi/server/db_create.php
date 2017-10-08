@@ -16,7 +16,7 @@ if (isset($_GET['value']) && isset($_GET['type'])) {
     $db = new DB_CONNECT();
 
     // mysql inserting a new row
-    $result = mysql_query("INSERT INTO liveData(value, type) VALUES('$value', '$type')");
+    $result = mysql_query("INSERT INTO madmobile.liveData(value, type) VALUES('$value', '$type')");
 
     // check if row inserted or not
     if ($result) {
