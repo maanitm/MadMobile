@@ -15,12 +15,12 @@
     $status = "ok";
     $message = "";
 
-    $value = $_GET['value'];
-    $type = $_GET['type'];
+    $value = $_POST['value'];
+    $type = $_POST['type'];
     $date = date('Y-m-d H:i:s');
 
-    check_if_empty($_GET['value']);
-    check_if_empty($_GET['type']);
+    check_if_empty($_POST['value']);
+    check_if_empty($_POST['type']);
 
     $sql = "INSERT INTO liveData (value, type, date) VALUES ('" . $value . "', '" . $type . "', '" . $date . "')";
 
