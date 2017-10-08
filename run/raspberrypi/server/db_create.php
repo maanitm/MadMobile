@@ -3,10 +3,10 @@
 $response = array();
 
 // check for required fields
-if (isset($_POST['value']) && isset($_POST['type'])) {
+if (isset($_GET['value']) && isset($_GET['type'])) {
 
-    $value = $_POST['value'];
-    $type = $_POST['type'];
+    $value = $_GET['value'];
+    $type = $_GET['type'];
     $date = date('Y-m-d H:i:s');
 
     // include db connect class
