@@ -29,11 +29,13 @@ pygame.init()
 j = pygame.joystick.Joystick(0)
 j.init()
 
+# setup GPIO and variables before starting
 def setup():
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(TRIG, GPIO.OUT)
     GPIO.setup(ECHO, GPIO.IN)
 
+# measure distance between ultrasonic sensor and object
 def distance():
     GPIO.output(TRIG, 0)
     time.sleep(0.000002)
@@ -57,18 +59,22 @@ def distance():
 
     return elapsed * 340 / 2 * 100
 
+# send number through serial to arduino
 def writeNumber(value):
   bus.write_byte(address, value)
   return -1
 
+# read number through serial from arduino
 def readNumber():
   number = bus.read_byte(address)
   return number
 
+# set motor speed
 def setSpeed(speed):
     writeNumber(speed)
     time.sleep(0.1)
 
+# get PS3 joystick value
 def getJoystickXValue():
     global manual
     global jValue
@@ -91,6 +97,7 @@ def getJoystickXValue():
         return jBefore
     return jValue
 
+# enable manual driving and return speed
 def manualDrive():
     driveV = getJoystickXValue()
 
@@ -103,6 +110,7 @@ def manualDrive():
 
     return driveV
 
+# enable cruise control and return speed
 def cruiseControl():
     driveV = 0
     jValue = getJoystickXValue()
@@ -129,6 +137,7 @@ def cruiseControl():
 
     return driveV
 
+# stop drive and close program
 def stopDrive():
     global stopped
     stopped = True
@@ -141,6 +150,7 @@ def stopDrive():
     pygame.quit()
     sys.exit()
 
+# repeatedly return distance values until stopped
 def distanceLoop():
     global frontDistance
     try:
@@ -151,6 +161,7 @@ def distanceLoop():
     except KeyboardInterrupt:
         stopDrive()
 
+# repeatedly apply voltage to motor based on drive type until stopped
 def driveLoop():
     global stopped
     global manual
@@ -170,6 +181,7 @@ def driveLoop():
     except KeyboardInterrupt:
         stopDrive()
 
+# get data from mysql database and store in global variables until stopped
 def dataLoop():
     global phoneSpeed
     try:
@@ -192,6 +204,7 @@ def dataLoop():
     except KeyboardInterrupt:
         stopDrive()
 
+# start drive and multiple threads and main method
 def startDrive():
     setup()
     t1 = Thread(target = driveLoop)
