@@ -180,10 +180,10 @@ def dataLoop():
         while not stopped:
             cur.execute("SELECT * FROM madmobile.liveData")
             row = cur.fetchone()
-            objId = int(row['id'])
-            objType = str(row['type'])
-            objValue = str(row['value'])
-            objDate = str(row['date'])
+            objId = int(row[0])
+            objType = str(row[1])
+            objValue = str(row[2])
+            objDate = str(row[3])
 
             if objType == "speed":
                 phoneSpeed = objValue
