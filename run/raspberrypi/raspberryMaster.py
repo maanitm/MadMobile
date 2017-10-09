@@ -149,7 +149,7 @@ def distanceLoop():
     try:
         while not stopped:
             frontDistance = distance()
-            # print frontDistance,"cm" 
+            # print frontDistance,"cm"
             time.sleep(0.3)
     except KeyboardInterrupt:
         stopDrive()
@@ -180,8 +180,8 @@ def dataLoop():
         while not stopped:
             cur.execute("SELECT * FROM madmobile.liveData")
             for row in cur.fetchall() :
-                print len(cur.fetchall()) - 1
-                if row[0] == len(cur.fetchall()) - 1:
+                print len(cur) - 1
+                if row[0] == len(cur) - 1:
                     objId = str(row[0])
                     objType = str(row[1])
                     objValue = str(row[2])
