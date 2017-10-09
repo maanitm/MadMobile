@@ -136,7 +136,7 @@ def stopDrive():
     global stopped
     stopped = True
     writeNumber(0)
-    print("Stopping ...")
+    print("Stopping ... ")
     cur.close()
     db.close()
     GPIO.cleanup()
@@ -179,18 +179,16 @@ def dataLoop():
     try:
         while not stopped:
             cur.execute("SELECT * FROM madmobile.liveData")
-            for row in cur.fetchall() :
-                print cur.count() - 1
-                if row[0] == cur.count() - 1:
-                    objId = str(row[0])
-                    objType = str(row[1])
-                    objValue = str(row[2])
-                    objDate = str(row[3])
+            row = cur.fetchone()
+            objId = int(row['id'])
+            objType = str(row['type'])
+            objValue = str(row['value'])
+            objDate = str(row['date'])
 
-                    if objType == "speed":
-                        phoneSpeed = objValue
+            if objType == "speed":
+                phoneSpeed = objValue
 
-                    print phoneSpeed
+            print phoneSpeed
     except KeyboardInterrupt:
         stopDrive()
 
