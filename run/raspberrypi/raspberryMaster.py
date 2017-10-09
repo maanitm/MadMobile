@@ -178,7 +178,7 @@ def dataLoop():
     global phoneSpeed
     try:
         while not stopped:
-            cur.execute("SELECT * FROM madmobile.liveData")
+            cur.execute("SELECT * FROM madmobile.liveData ORDER BY id DESC")
             row = cur.fetchone()
             objId = int(row[0])
             objType = str(row[1])
