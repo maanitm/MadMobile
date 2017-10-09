@@ -9,9 +9,6 @@ import MySQLdb
 
 print("Raspberry Pi Master")
 
-db = MySQLdb.connect(host="localhost", user="admin", passwd="madmobile1234", db="madmobile")
-cur = db.cursor()
-
 bus = smbus.SMBus(1)
 
 # arduino slave motor address
@@ -161,7 +158,7 @@ def driveLoop():
     global phoneSpeed
     try:
         while not stopped:
-            # print phoneSpeed, "mph"
+            print phoneSpeed, "mph"
             if manual:
                 currentSpeed = manualDrive()
             else:
@@ -174,10 +171,11 @@ def driveLoop():
         stopDrive()
 
 def dataLoop():
-    global cur
     global phoneSpeed
     try:
         while not stopped:
+            db = MySQLdb.connect(host="localhost", user="admin", passwd="madmobile1234", db="madmobile")
+            cur = db.cursor()
             cur.execute("SELECT * FROM madmobile.liveData ORDER BY id DESC")
             row = cur.fetchone()
             objId = int(row[0])
