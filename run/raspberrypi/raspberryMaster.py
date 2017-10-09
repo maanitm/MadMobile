@@ -187,6 +187,8 @@ def dataLoop():
                 phoneSpeed = objValue
 
             print phoneSpeed
+            #test closure of Cursor after every loop to recheck the database (may crash !!!)
+            cur.close()
     except KeyboardInterrupt:
         stopDrive()
 
