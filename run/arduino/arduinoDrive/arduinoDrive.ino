@@ -3,23 +3,20 @@
 
 #define SLAVE_ADDRESS 0x04
 #define SERIAL_ADDRESS 9600
+#define csPin 10
+#define sckPin 13
 
 int motorSpeed = 0;
-
-const int csPin = 10;
-const int sckPin = 13;
 
 void setup() {
   pinMode(sckPin, OUTPUT);
   pinMode (csPin, OUTPUT);
   
-  Serial.begin(SERIAL_ADDRESS); // start serial for output
-  // initialize i2c as slave
+  Serial.begin(SERIAL_ADDRESS);
   SPI.begin();
   
   Wire.begin(SLAVE_ADDRESS);
   
-  // define callbacks for i2c communication
   Wire.onReceive(receiveData);
   Wire.onRequest(sendData);
   
@@ -34,8 +31,8 @@ void receiveData(int byteCount) {
   while(Wire.available()) {
     motorSpeed = Wire.read();
     if (motorSpeed < 129) {
-        digitalPotWrite(motorSpeed);
-        delay(50);
+      digitalPotWrite(motorSpeed);
+      delay(50);
     }
     delay(100);
   }
