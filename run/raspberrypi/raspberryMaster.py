@@ -12,7 +12,8 @@ print("Raspberry Pi Master")
 bus = smbus.SMBus(1)
 
 # arduino slave motor address
-address = 0x04
+driveAddress = 0x04
+turnAddress = 0x04
 
 stopped = False
 currentSpeed = 0
@@ -60,19 +61,24 @@ def distance():
     return elapsed * 340 / 2 * 100
 
 # send number through serial to arduino
-def writeNumber(value):
+def writeNumber(address, value):
   bus.write_byte(address, value)
   return -1
 
 # read number through serial from arduino
-def readNumber():
+def readNumber(address):
   number = bus.read_byte(address)
   return number
 
 # set motor speed
 def setSpeed(speed):
-    writeNumber(speed)
+    writeNumber(driveAddress, speed)
     time.sleep(0.1)
+
+# set motor speed
+def setTurn(turn):
+    writeNumber(turnAddress, turn)
+    time.sleep(3.0 * (turn/100.0))
 
 # get PS3 joystick value
 def getJoystickXValue():
@@ -92,6 +98,20 @@ def getJoystickXValue():
             manual = True
         elif j.get_button(16):
             stopDrive()
+
+    if not jValue and jValue is not 0:
+        return jBefore
+    return jValue
+
+def getJoystickYValue():
+    global manual
+    global jValue
+    jBefore = jValue
+    events = pygame.event.get()
+    for event in events:
+        if event.type == pygame.JOYAXISMOTION:
+            if event.axis == 2:
+                jValue = event.value
 
     if not jValue and jValue is not 0:
         return jBefore
@@ -141,7 +161,7 @@ def cruiseControl():
 def stopDrive():
     global stopped
     stopped = True
-    writeNumber(0)
+    writeNumber(driveAddress, 0)
     print("Stopping ... ")
     cur.close()
     db.close()
@@ -204,13 +224,26 @@ def dataLoop():
     except KeyboardInterrupt:
         stopDrive()
 
+def turnLoop():
+    global currentTurn
+    try:
+        while not stopped:
+            turnP = getJoystickYValue() * 100
+            setTurn(turnP)
+
+    except KeyboardInterrupt:
+        stopDrive()
+
 # start drive and multiple threads and main method
 def startDrive():
     setup()
+
     t1 = Thread(target = driveLoop)
     t2 = Thread(target = distanceLoop)
     t3 = Thread(target = dataLoop)
+    t4 = Thread(target = turnLoop)
 
     t1.start()
     t2.start()
     t3.start()
+    t4.start()
