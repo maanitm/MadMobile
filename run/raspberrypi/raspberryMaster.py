@@ -228,7 +228,8 @@ def turnLoop():
     try:
         while not stopped:
             turnP = getJoystickYValue() * 100
-            setTurn(turn)
+            setTurn(turnP)
+            currentTurn = turnP
 
     except KeyboardInterrupt:
         stopDrive()
