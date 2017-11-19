@@ -61,8 +61,8 @@ def distance():
     return elapsed * 340 / 2 * 100
 
 # send number through serial to arduino
-def writeNumber(address, value):
-  bus.write_byte(address, value)
+def writeNumber(value):
+  bus.write_byte(turnAddress, value)
   return -1
 
 # read number through serial from arduino
@@ -77,7 +77,7 @@ def setSpeed(speed):
 
 # set motor speed
 def setTurn(turn):
-    writeNumber(turnAddress, turn)
+    writeNumber(turn)
     time.sleep(3.0 * (turn/100.0))
 
 # get PS3 joystick value
