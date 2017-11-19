@@ -12,8 +12,7 @@ print("Raspberry Pi Master")
 bus = smbus.SMBus(1)
 
 # arduino slave motor address
-driveAddress = 0x04
-turnAddress = 0x04
+address = 0x04
 
 stopped = False
 currentSpeed = 0
@@ -62,17 +61,17 @@ def distance():
 
 # send number through serial to arduino
 def writeNumber(value):
-  bus.write_byte(turnAddress, value)
+  bus.write_byte(address, value)
   return -1
 
 # read number through serial from arduino
-def readNumber(address):
+def readNumber():
   number = bus.read_byte(address)
   return number
 
 # set motor speed
 def setSpeed(speed):
-    writeNumber(driveAddress, speed)
+    writeNumber(speed)
     time.sleep(0.1)
 
 # set motor speed
@@ -161,7 +160,7 @@ def cruiseControl():
 def stopDrive():
     global stopped
     stopped = True
-    writeNumber(driveAddress, 0)
+    writeNumber(0)
     print("Stopping ... ")
     cur.close()
     db.close()
@@ -229,7 +228,7 @@ def turnLoop():
     try:
         while not stopped:
             turnP = getJoystickYValue() * 100
-            setTurn(turnP)
+            setTurn(turn)
 
     except KeyboardInterrupt:
         stopDrive()
@@ -237,7 +236,6 @@ def turnLoop():
 # start drive and multiple threads and main method
 def startDrive():
     setup()
-
     t1 = Thread(target = driveLoop)
     t2 = Thread(target = distanceLoop)
     t3 = Thread(target = dataLoop)
