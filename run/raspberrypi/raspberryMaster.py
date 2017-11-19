@@ -243,7 +243,7 @@ def startDrive():
     t3 = Thread(target = dataLoop)
     t4 = Thread(target = turnLoop)
 
-    t1.start()
-    t2.start()
-    t3.start()
+    # t1.start()
+    # t2.start()
+    # t3.start()
     t4.start()
