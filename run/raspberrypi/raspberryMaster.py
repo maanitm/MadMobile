@@ -63,7 +63,7 @@ def distance():
 def writeNumber(value):
   print(address)
   print(value)
-  bus.write_byte_data(address, 0, 2)
+  bus.write_byte_data(address, 0, value)
   return value
 
 # read number through serial from arduino
