@@ -5,7 +5,7 @@ import const
 from os import sys
 import RPi.GPIO as GPIO
 from threading import Thread
-import MySQLdb
+#import MySQLdb
 
 print("Raspberry Pi Master")
 
@@ -233,6 +233,7 @@ def turnLoop():
         while not stopped:
             turnP = getJoystickYValue() * 100
             currentTurn = turnP
+	    print turnP, "turnP"
             setTurn(0)
 
     except KeyboardInterrupt:
