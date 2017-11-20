@@ -56,7 +56,7 @@ void loop() {
 void receiveData(int byteCount) {
   while(Wire.available()) {
     currentVal = Wire.read();
-    Serial.print(currentVal);
+    Serial.println(Wire.read());
     setActuatorValue(currentVal);
   }
 }
