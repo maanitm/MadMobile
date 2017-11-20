@@ -12,7 +12,7 @@ print("Raspberry Pi Master")
 bus = smbus.SMBus(1)
 
 # arduino slave motor address
-address = 1x06
+address = 0x06
 
 stopped = False
 currentSpeed = 0
