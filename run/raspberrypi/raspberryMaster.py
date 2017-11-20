@@ -79,7 +79,7 @@ def setSpeed(speed):
 # set motor speed
 def setTurn(turn):
     if turn < 0:
-        newTurn = turn + 100
+        newTurn = (turn * -1) + 100
         writeNumber(newTurn)
     else:
         writeNumber(turn)
