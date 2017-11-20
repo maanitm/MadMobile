@@ -63,7 +63,7 @@ def distance():
 def writeNumber(value):
   print(address)
   print(value)
-  bus.write_byte(address, value)
+  bus.write_byte(address, 0)
   return -1
 
 # read number through serial from arduino
@@ -78,6 +78,7 @@ def setSpeed(speed):
 
 # set motor speed
 def setTurn(turn):
+    print(writeNumber)
     writeNumber(turn)
     time.sleep(3.0 * (turn/100.0))
 
@@ -227,6 +228,7 @@ def dataLoop():
 
 def turnLoop():
     global currentTurn
+    global stopped
     try:
         while not stopped:
             turnP = getJoystickYValue() * 100
