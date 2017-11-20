@@ -78,7 +78,7 @@ def setSpeed(speed):
 
 # set motor speed
 def setTurn(turn):
-    print(writeNumber)
+    print(turn)
     writeNumber(turn)
     time.sleep(3.0 * (turn/100.0))
 
