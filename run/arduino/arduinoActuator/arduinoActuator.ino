@@ -1,7 +1,7 @@
 #include <Wire.h>
 #include <SPI.h>
 
-#define SLAVE_ADDRESS 0x04
+#define SLAVE_ADDRESS 0x06
 #define SERIAL_ADDRESS 9600
 #define pwmPin 3
 #define dirPin 2
