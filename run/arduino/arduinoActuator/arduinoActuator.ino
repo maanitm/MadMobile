@@ -55,8 +55,12 @@ void loop() {
 // callback for received data
 void receiveData(int byteCount) {
   while(Wire.available()) {
-    currentVal = Wire.read();
-    Serial.println(Wire.read());
+    int newVal = Wire.read();
+    if (newVal > 100) {
+      newVal = (newVal - 100) - (newVal * 2);
+    }
+    Serial.println(newVal);
+    currentVal = newVal;
     setActuatorValue(currentVal);
   }
 }
