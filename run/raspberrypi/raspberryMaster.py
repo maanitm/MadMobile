@@ -80,6 +80,8 @@ def setSpeed(speed):
 def setTurn(turn):
     print(turn)
     writeNumber(turn)
+    if turn < 0:
+        turn = turn * -1
     time.sleep(3.0 * (float(turn)/100.0))
 
 # get PS3 joystick value
