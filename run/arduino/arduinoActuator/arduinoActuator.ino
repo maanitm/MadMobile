@@ -55,13 +55,15 @@ void loop() {
 void receiveData(int byteCount) {
   while(Wire.available()) {
     int newVal = Wire.read();
-    if (newVal > 100) {
-      newVal = (newVal + 100) - (newVal * 2);
+    if (newVal <= 200) {
+      if (newVal > 100) {
+        newVal = (newVal + 100) - (newVal * 2);
+      }
+      int change = newVal - currentVal;
+      Serial.println(newVal);
+      setActuatorValue(change);
+      currentVal = newVal;  
     }
-    int change = newVal - currentVal;
-    Serial.println(newVal);
-    setActuatorValue(change);
-    currentVal = newVal;
   }
 }
 
