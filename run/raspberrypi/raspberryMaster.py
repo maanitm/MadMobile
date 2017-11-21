@@ -21,7 +21,6 @@ manual = True
 frontDistance = 400
 TRIG = 20
 ECHO = 21
-currentTurn = 0
 
 jValue = 0
 
@@ -62,8 +61,8 @@ def distance():
 
 # send number through serial to arduino
 def writeNumber(value):
-  # print(address)
-  # print(value)
+  print(address)
+  print(value)
   bus.write_byte_data(address, 201, value)
   return value
 
@@ -79,19 +78,13 @@ def setSpeed(speed):
 
 # set motor speed
 def setTurn(turn):
-    global currentTurn
     if turn < 0:
         newTurn = 100 - (turn * -1)
     else:
         newTurn = turn + 100
 
     writeNumber(int(newTurn/2))
-    change = int(newTurn/2) - currentTurn
-    print change
-    if change < 0:
-        change * -1
-    time.sleep(3.0 * (float(change)/100.0))
-    currentTurn = int(newTurn/2)
+    time.sleep(3.0 * (float(newTurn/2)/100.0))
 
 # get PS3 joystick value
 def getJoystickXValue():
@@ -243,6 +236,7 @@ def turnLoop():
     try:
         while not stopped:
             turnP = getJoystickYValue() * 100
+            currentTurn = turnP
             setTurn(int(turnP))
 
     except KeyboardInterrupt:
