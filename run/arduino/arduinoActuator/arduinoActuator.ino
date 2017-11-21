@@ -10,8 +10,8 @@ int currentVal = 0;
 
 void setup() {
   // put your setup code here, to run once:
-  pinMode(pwmPin,OUTPUT);
-  pinMode(dirPin,OUTPUT);
+  pinMode(pwmPin, OUTPUT);
+  pinMode(dirPin, OUTPUT);
 
   setActuatorValue(currentVal);
 
@@ -28,20 +28,19 @@ void setup() {
 
 void setActuatorValue(int value) {
   if (value > 0) {
-    analogWrite(pwmPin, 255);
-    
     digitalWrite(dirPin, HIGH);
+    analogWrite(pwmPin, 255);
     delay((300/100) * value);
     analogWrite(pwmPin, 0); 
   }
   else if (value < 0) {
-    analogWrite(pwmPin, 255);
-    
     digitalWrite(dirPin, LOW);
+    analogWrite(pwmPin, 255);
     delay((300/100) * value * -1);
     analogWrite(pwmPin, 0); 
   }
   else {
+    digitalWrite(dirPin, HIGH);
     analogWrite(pwmPin, 0);
   }
   delay(5);
