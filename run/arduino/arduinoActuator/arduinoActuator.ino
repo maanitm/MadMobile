@@ -32,14 +32,14 @@ void setActuatorValue(int value) {
     digitalWrite(dirPin, HIGH);
     analogWrite(pwmPin, 255);
     Serial.println("A");
-    delay((300/100) * value);
+    delay((3000/1000) * (value*10));
     Serial.println("B");
     analogWrite(pwmPin, 0); 
   }
   else if (value < 0) {
     digitalWrite(dirPin, LOW);
     analogWrite(pwmPin, 255);
-    delay((300/100) * value * -1);
+    delay((3000/1000) * (value * -10));
     analogWrite(pwmPin, 0); 
   }
   else {
@@ -51,7 +51,7 @@ void setActuatorValue(int value) {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  setActuatorValue(10);
+  setActuatorValue(changedVal);
   Serial.println(changedVal);
 }
 
