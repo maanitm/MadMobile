@@ -7,6 +7,7 @@
 #define dirPin 2
 
 int currentVal = 0;
+int changedVal = 0;
 
 void setup() {
   // put your setup code here, to run once:
@@ -44,10 +45,12 @@ void setActuatorValue(int value) {
     analogWrite(pwmPin, 0);
   }
   delay(5);
+  currentVal = newVal;
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
+  setActuator(changedVal);
 }
 
 // callback for received data
@@ -55,10 +58,7 @@ void receiveData(int byteCount) {
   while(Wire.available()) {
     int newVal = Wire.read();
     if (newVal <= 200) {
-      int change = newVal - currentVal;
-      Serial.println(change);
-      setActuatorValue(change);
-      currentVal = newVal;  
+      changedVal = newVal - currentVal;
     }
   }
 }
