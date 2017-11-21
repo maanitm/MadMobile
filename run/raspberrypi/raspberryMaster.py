@@ -83,7 +83,7 @@ def setTurn(turn):
     else:
         newTurn = turn + 100
 
-    writeNumber(newTurn)
+    writeNumber(int(newTurn/2))
 
 # get PS3 joystick value
 def getJoystickXValue():
