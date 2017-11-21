@@ -5,6 +5,7 @@ import const
 from os import sys
 import RPi.GPIO as GPIO
 from threading import Thread
+import subprocess
 #import MySQLdb
 
 print("Raspberry Pi Master")
