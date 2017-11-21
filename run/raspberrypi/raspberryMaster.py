@@ -65,10 +65,10 @@ def writeNumber(value):
   print(address)
   print(value)
   try:
-    bus.write_byte_data(address, 201, value)
+    bus.write_byte(address, value)
   except IOError:
     subprocess.call(['i2cdetect', '-y', '1'])
-    flag = 1
+    print("disconnected")
   return value
 
 # read number through serial from arduino
