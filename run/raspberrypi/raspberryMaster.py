@@ -62,10 +62,9 @@ def distance():
 
 # send number through serial to arduino
 def writeNumber(value):
-  print(address)
-  print(value)
+  # print(address)
+  # print(value)
   bus.write_byte_data(address, 201, value)
-  currentTurn = value
   return value
 
 # read number through serial from arduino
@@ -87,7 +86,11 @@ def setTurn(turn):
 
     writeNumber(int(newTurn/2))
     change = (newTurn/2) - currentTurn
+    print change
+    if change < 0:
+        change * -1
     time.sleep(3.0 * (float(change)/100.0))
+    currentTurn = value
 
 # get PS3 joystick value
 def getJoystickXValue():
