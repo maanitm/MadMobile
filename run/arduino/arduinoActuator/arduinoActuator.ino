@@ -6,14 +6,13 @@
 #define pwmPin 3
 #define dirPin 2
 
-int currentVal = 50;
+int currentVal = 0;
 
 void setup() {
   // put your setup code here, to run once:
   pinMode(pwmPin,OUTPUT);
   pinMode(dirPin,OUTPUT);
 
-  currentVal = 50;
   setActuatorValue(currentVal);
 
   Serial.begin(SERIAL_ADDRESS);
@@ -59,10 +58,10 @@ void receiveData(int byteCount) {
     if (newVal > 100) {
       newVal = (newVal + 100) - (newVal * 2);
     }
+    int change = newVal - currentVal;
     Serial.println(newVal);
-    int difference = newVal - currentVal;
-    currentVal = currentVal - difference;
-    setActuatorValue(difference);
+    setActuatorValue(change);
+    currentVal = newVal;
   }
 }
 
