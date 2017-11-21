@@ -84,6 +84,7 @@ def setTurn(turn):
         newTurn = turn + 100
 
     writeNumber(int(newTurn/2))
+    time.sleep(3.0 * (float(newTurn/2)/100.0))
 
 # get PS3 joystick value
 def getJoystickXValue():

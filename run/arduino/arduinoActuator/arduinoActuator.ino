@@ -57,7 +57,7 @@ void receiveData(int byteCount) {
     int newVal = Wire.read();
     if (newVal <= 200) {
       int change = newVal - currentVal;
-      Serial.println(currentVal);
+      Serial.println(change);
       setActuatorValue(change);
       currentVal = newVal;  
     }
