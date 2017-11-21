@@ -81,7 +81,7 @@ def setTurn(turn):
     if turn < 0:
         newTurn = (turn * -1) + 100
     else:
-        newTurn = turn - 100
+        newTurn = turn + 100
 
     writeNumber(newTurn)
 
