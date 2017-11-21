@@ -80,12 +80,10 @@ def setSpeed(speed):
 def setTurn(turn):
     if turn < 0:
         newTurn = (turn * -1) + 100
-        writeNumber(newTurn)
     else:
-        writeNumber(turn)
+        newTurn = turn - 100
 
-    if turn < 0:
-        turn = turn * -1
+    writeNumber(newTurn)
 
 # get PS3 joystick value
 def getJoystickXValue():
