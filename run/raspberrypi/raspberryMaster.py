@@ -67,7 +67,6 @@ def writeNumber(value):
   try:
     bus.write_byte(address, value)
   except IOError:
-    subprocess.call(['i2cdetect', '-y', '1'])
     print("disconnected")
   return value
 
