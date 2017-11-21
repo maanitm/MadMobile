@@ -31,7 +31,9 @@ void setActuatorValue(int value) {
   if (value > 0) {
     digitalWrite(dirPin, HIGH);
     analogWrite(pwmPin, 255);
+    Serial.println("A");
     delay((300/100) * value);
+    Serial.println("B");
     analogWrite(pwmPin, 0); 
   }
   else if (value < 0) {
@@ -45,12 +47,12 @@ void setActuatorValue(int value) {
     analogWrite(pwmPin, 0);
   }
   delay(5);
-  currentVal = newVal;
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-  setActuator(changedVal);
+  setActuatorValue(10);
+  Serial.println(changedVal);
 }
 
 // callback for received data
@@ -59,6 +61,7 @@ void receiveData(int byteCount) {
     int newVal = Wire.read();
     if (newVal <= 200) {
       changedVal = newVal - currentVal;
+      currentVal = newVal;
     }
   }
 }
