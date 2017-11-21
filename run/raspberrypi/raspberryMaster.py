@@ -63,7 +63,11 @@ def distance():
 def writeNumber(value):
   print(address)
   print(value)
-  bus.write_byte_data(address, 201, value)
+  try:
+    bus.write_byte_data(address, 201, value)
+  except IOError:
+    subprocess.call(['i2cdetect', '-y', '1'])
+    flag = 1
   return value
 
 # read number through serial from arduino
