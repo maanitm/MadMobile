@@ -79,6 +79,7 @@ def setSpeed(speed):
 
 # set motor speed
 def setTurn(turn):
+    global currentTurn
     if turn < 0:
         newTurn = 100 - (turn * -1)
     else:
