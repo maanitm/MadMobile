@@ -57,6 +57,7 @@ void loop() {
 void receiveData(int byteCount) {
   while(Wire.available()) {
     stickVal = Wire.read();
+    Serial.println(stickVal);
     delay(5);
   }
 }

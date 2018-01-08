@@ -173,6 +173,7 @@ def stopDrive():
     global stopped
     stopped = True
     writeNumber(0, driveAddress)
+    writeNumber(50, turnAddress)
     print("Stopping ... ")
     cur.close()
     db.close()
@@ -200,7 +201,7 @@ def driveLoop():
     global phoneSpeed
     try:
         while not stopped:
-            print phoneSpeed, "mph"
+            print "drive"
             if manual:
                 currentSpeed = manualDrive()
             else:
@@ -240,6 +241,7 @@ def turnLoop():
     global stopped
     try:
         while not stopped:
+	    print "turn"
             turnP = getJoystickYValue() * 100
             currentTurn = turnP
             setTurn(int(turnP))

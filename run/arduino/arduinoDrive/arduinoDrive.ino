@@ -31,6 +31,7 @@ void receiveData(int byteCount) {
   while(Wire.available()) {
     motorSpeed = Wire.read();
     if (motorSpeed < 129) {
+      Serial.println(motorSpeed);
       digitalPotWrite(motorSpeed);
       delay(50);
     }
