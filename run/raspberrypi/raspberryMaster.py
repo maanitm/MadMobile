@@ -13,7 +13,8 @@ print("Raspberry Pi Master")
 bus = smbus.SMBus(1)
 
 # arduino slave motor address
-address = 0x06
+driveAddress = 0x04
+turnAddress = 0x06
 
 stopped = False
 currentSpeed = 0
@@ -61,7 +62,7 @@ def distance():
     return elapsed * 340 / 2 * 100
 
 # send number through serial to arduino
-def writeNumber(value):
+def writeNumber(value, address):
   print(address)
   print(value)
   try:
@@ -71,13 +72,13 @@ def writeNumber(value):
   return value
 
 # read number through serial from arduino
-def readNumber():
+def readNumber(address):
   number = bus.read_byte(address)
   return number
 
 # set motor speed
 def setSpeed(speed):
-    writeNumber(speed)
+    writeNumber(speed, driveAddress)
     time.sleep(0.1)
 
 # set motor speed
@@ -87,7 +88,7 @@ def setTurn(turn):
     else:
         newTurn = turn + 100
 
-    writeNumber(int(newTurn/2))
+    writeNumber(int(newTurn/2), turnAddress)
     # time.sleep(3)
 
 # get PS3 joystick value
@@ -171,7 +172,7 @@ def cruiseControl():
 def stopDrive():
     global stopped
     stopped = True
-    writeNumber(0)
+    writeNumber(0, driveAddress)
     print("Stopping ... ")
     cur.close()
     db.close()
@@ -254,7 +255,7 @@ def startDrive():
     t3 = Thread(target = dataLoop)
     t4 = Thread(target = turnLoop)
 
-    # t1.start()
+    t1.start()
     # t2.start()
     # t3.start()
-    t4.start()
+    # t4.start()
