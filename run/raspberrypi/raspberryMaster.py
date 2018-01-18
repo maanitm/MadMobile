@@ -17,6 +17,7 @@ turnAddress = 0x06
 
 stopped = False
 currentSpeed = 0
+currentTurn = 0
 manual = True
 frontDistance = 400
 TRIG = 20
@@ -31,9 +32,24 @@ j.init()
 
 # setup GPIO and variables before starting
 def setup():
+    global stopped
+    global currentSpeed
+    global currentTurn
+    global manual
+    global frontDistance
+    global jValue
+
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(TRIG, GPIO.OUT)
     GPIO.setup(ECHO, GPIO.IN)
+
+    stopped = False
+    currentSpeed = 0
+    currentTurn = 0
+    manual = True
+    frontDistance = 400
+    jValue = 0
+
 
 # measure distance between ultrasonic sensor and object
 def distance():
@@ -138,6 +154,8 @@ def getJoystickYValue():
         if event.type == pygame.JOYAXISMOTION:
             if event.axis == 2:
                 jValue = event.value
+        if j.get_button(16):
+            stopDrive()
 
     if not jValue and jValue is not 0:
         return jBefore
