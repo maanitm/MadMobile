@@ -62,18 +62,18 @@ def distance():
     return elapsed * 340 / 2 * 100
 
 # send number through serial to arduino
-def writeNumber(value, address):
-  print(address)
+def writeNumber(value, addr):
+  print(addr)
   print(value)
   try:
-    bus.write_byte(address, value)
+    bus.write_byte(addr, value)
   except IOError:
     print("disconnected")
   return value
 
 # read number through serial from arduino
-def readNumber(address):
-  number = bus.read_byte(address)
+def readNumber(addr):
+  number = bus.read_byte(addr)
   return number
 
 # set motor speed
