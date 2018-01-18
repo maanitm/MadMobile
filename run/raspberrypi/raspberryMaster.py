@@ -6,7 +6,6 @@ from os import sys
 import RPi.GPIO as GPIO
 from threading import Thread
 import subprocess
-#import MySQLdb
 
 print("Raspberry Pi Master")
 
@@ -18,7 +17,6 @@ turnAddress = 0x06
 
 stopped = False
 currentSpeed = 0
-phoneSpeed = 0
 manual = True
 frontDistance = 400
 TRIG = 20
@@ -198,7 +196,6 @@ def driveLoop():
     global stopped
     global manual
     global currentSpeed
-    global phoneSpeed
     try:
         while not stopped:
             print "drive"
@@ -210,29 +207,6 @@ def driveLoop():
             if currentSpeed <= const.motorMaxSpeed and currentSpeed >= const.motorZeroSpeed:
                 setSpeed(currentSpeed)
 
-    except KeyboardInterrupt:
-        stopDrive()
-
-# get data from mysql database and store in global variables until stopped
-def dataLoop():
-    global phoneSpeed
-    try:
-        while not stopped:
-            db = MySQLdb.connect(host="localhost", user="admin", passwd="madmobile1234", db="madmobile")
-            cur = db.cursor()
-            cur.execute("SELECT * FROM madmobile.liveData ORDER BY id DESC")
-            row = cur.fetchone()
-            objId = int(row[0])
-            objType = str(row[1])
-            objValue = str(row[2])
-            objDate = str(row[3])
-
-            if objType == "speed":
-                phoneSpeed = objValue
-
-            print phoneSpeed
-            #test closure of Cursor after every loop to recheck the database (may crash !!!)
-            cur.close()
     except KeyboardInterrupt:
         stopDrive()
 
@@ -254,10 +228,8 @@ def startDrive():
     setup()
     t1 = Thread(target = driveLoop)
     t2 = Thread(target = distanceLoop)
-    t3 = Thread(target = dataLoop) # Removing this now
     t4 = Thread(target = turnLoop)
 
     t1.start()
     # t2.start()
-    # t3.start()
     t4.start()
