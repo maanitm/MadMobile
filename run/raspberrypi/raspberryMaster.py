@@ -76,7 +76,15 @@ def readNumber(addr):
 
 # set motor speed
 def setSpeed(speed):
-    writeNumber(speed, driveAddress)
+    # writeNumber(speed, driveAddress)
+    print("-------------------")
+    print(driveAddress)
+    print(speed)
+    try:
+        bus.write_byte(driveAddress, speed)
+    except IOError:
+        print("disconnected")
+
     time.sleep(0.1)
 
 # set motor speed
@@ -86,8 +94,17 @@ def setTurn(turn):
     else:
         newTurn = turn + 100
 
-    writeNumber(int(newTurn/2), turnAddress)
-    # time.sleep(3)
+    print("-------------------")
+    print(turnAddress)
+    print(newTurn/2)
+
+    try:
+        bus.write_byte(turnAddress, int(newTurn/2))
+    except IOError:
+        print("disconnected")
+
+    # writeNumber(int(newTurn/2), turnAddress)
+    time.sleep(3)
 
 # get PS3 joystick value
 def getJoystickXValue():
