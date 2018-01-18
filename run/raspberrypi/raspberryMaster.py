@@ -254,7 +254,7 @@ def startDrive():
     setup()
     t1 = Thread(target = driveLoop)
     t2 = Thread(target = distanceLoop)
-    t3 = Thread(target = dataLoop)
+    t3 = Thread(target = dataLoop) # Removing this now
     t4 = Thread(target = turnLoop)
 
     t1.start()
