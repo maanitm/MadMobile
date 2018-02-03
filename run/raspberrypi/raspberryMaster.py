@@ -1,4 +1,3 @@
-import smbus
 import time
 import pygame
 import const
@@ -6,14 +5,12 @@ from os import sys
 import RPi.GPIO as GPIO
 from threading import Thread
 import subprocess
+import serial
 
 print("Raspberry Pi Master")
 
-bus = smbus.SMBus(1)
-
-# arduino slave motor address
-driveAddress = 0x04
-turnAddress = 0x06
+driveSer = serial.Serial('/dev/ttyACM0', 9600, timeout=1)
+turnSer = serial.Serial('/dev/ttyACM1', 9600, timeout=1)
 
 stopped = False
 currentSpeed = 0
@@ -75,29 +72,13 @@ def distance():
 
     return elapsed * 340 / 2 * 100
 
-# send number through serial to arduino
-def writeNumber(value, addr):
-  print(addr)
-  print(value)
-  try:
-    bus.write_byte(addr, value)
-  except IOError:
-    print("disconnected")
-  return value
-
-# read number through serial from arduino
-def readNumber(addr):
-  number = bus.read_byte(addr)
-  return number
-
 # set motor speed
 def setSpeed(speed):
     # writeNumber(speed, driveAddress)
     print("-------------------")
-    print(driveAddress)
     print(speed)
     try:
-        bus.write_byte(driveAddress, speed)
+        driveSer.write(speed)
     except IOError:
         print("disconnected")
 
@@ -115,7 +96,7 @@ def setTurn(turn):
     print(newTurn/2)
 
     try:
-        bus.write_byte(turnAddress, int(newTurn/2))
+        turnSer.write(newTurn/2)
     except IOError:
         print("disconnected")
 
@@ -205,11 +186,13 @@ def cruiseControl():
 def stopDrive():
     global stopped
     stopped = True
-    writeNumber(0, driveAddress)
-    writeNumber(50, turnAddress)
+    driveSer.write(0)
+    turnSer.write(50)
     print("Stopping ... ")
     cur.close()
     db.close()
+    driveSer.close()
+    turnSer.close()
     GPIO.cleanup()
     j.quit()
     pygame.quit()
