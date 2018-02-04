@@ -250,7 +250,7 @@ def turnLoop():
     global stopped
     try:
         while not stopped:
-	    print "turn"
+	        print "turn"
             turnP = getJoystickYValue() * 100
             currentTurn = turnP
             setTurn(int(turnP))
