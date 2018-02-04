@@ -10,8 +10,8 @@ import serial
 
 print("Raspberry Pi Master")
 
-driveSer = serial.Serial('/dev/ttyACM0', 9600, timeout=1)
-turnSer = serial.Serial('/dev/ttyACM1', 9600, timeout=1)
+driveSer = serial.Serial('/dev/ttyUSB0', 9600, timeout=1)
+turnSer = serial.Serial('/dev/ttyUSB0', 9600, timeout=1)
 
 stopped = False
 currentSpeed = 0
@@ -79,7 +79,8 @@ def setSpeed(speed):
     print("-------------------")
     print(speed)
     try:
-        driveSer.write(speed)
+        driveSer.write(b'\x83')
+        print(b'\x83')
     except IOError:
         print("disconnected")
 
@@ -187,8 +188,8 @@ def cruiseControl():
 def stopDrive():
     global stopped
     stopped = True
-    driveSer.write(0)
-    turnSer.write(50)
+    driveSer.write("0")
+    #turnSer.write(50)
     print("Stopping ... ")
     cur.close()
     db.close()
@@ -235,9 +236,9 @@ def turnLoop():
     try:
         while not stopped:
 	        print "turn"
-            turnP = getJoystickYValue() * 100
-            currentTurn = turnP
-            setTurn(int(turnP))
+        	turnP = getJoystickYValue() * 100
+        	currentTurn = turnP
+        	setTurn(int(turnP))
 
     except KeyboardInterrupt:
         stopDrive()
@@ -251,4 +252,4 @@ def startDrive():
 
     t1.start()
     # t2.start()
-    t4.start()
+    #t4.start()
