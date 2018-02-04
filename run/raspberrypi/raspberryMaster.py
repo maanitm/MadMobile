@@ -1,4 +1,3 @@
-import smbus
 import time
 import pygame
 import const
@@ -7,19 +6,16 @@ import RPi.GPIO as GPIO
 from threading import Thread
 from multiprocessing import Process
 import subprocess
-#import MySQLdb
+import serial
 
 print("Raspberry Pi Master")
 
-bus = smbus.SMBus(1)
-
-# arduino slave motor address
-driveAddress = 0x04
-turnAddress = 0x06
+driveSer = serial.Serial('/dev/ttyACM0', 9600, timeout=1)
+turnSer = serial.Serial('/dev/ttyACM1', 9600, timeout=1)
 
 stopped = False
 currentSpeed = 0
-phoneSpeed = 0
+currentTurn = 0
 manual = True
 frontDistance = 400
 TRIG = 20
@@ -34,9 +30,24 @@ j.init()
 
 # setup GPIO and variables before starting
 def setup():
+    global stopped
+    global currentSpeed
+    global currentTurn
+    global manual
+    global frontDistance
+    global jValue
+
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(TRIG, GPIO.OUT)
     GPIO.setup(ECHO, GPIO.IN)
+
+    stopped = False
+    currentSpeed = 0
+    currentTurn = 0
+    manual = True
+    frontDistance = 400
+    jValue = 0
+
 
 # measure distance between ultrasonic sensor and object
 def distance():
@@ -62,24 +73,16 @@ def distance():
 
     return elapsed * 340 / 2 * 100
 
-# send number through serial to arduino
-def writeNumber(value, address):
-  print(address)
-  print(value)
-  try:
-    bus.write_byte(address, value)
-  except IOError:
-    print("disconnected")
-  return value
-
-# read number through serial from arduino
-def readNumber(address):
-  number = bus.read_byte(address)
-  return number
-
 # set motor speed
 def setSpeed(speed):
-    writeNumber(speed, driveAddress)
+    # writeNumber(speed, driveAddress)
+    print("-------------------")
+    print(speed)
+    try:
+        driveSer.write(speed)
+    except IOError:
+        print("disconnected")
+
     time.sleep(0.1)
 
 # set motor speed
@@ -89,8 +92,17 @@ def setTurn(turn):
     else:
         newTurn = turn + 100
 
-    writeNumber(int(newTurn/2), turnAddress)
-    # time.sleep(3)
+    print("-------------------")
+    print(turnAddress)
+    print(newTurn/2)
+
+    try:
+        turnSer.write(newTurn/2)
+    except IOError:
+        print("disconnected")
+
+    # writeNumber(int(newTurn/2), turnAddress)
+    time.sleep(3)
 
 # get PS3 joystick value
 def getJoystickXValue():
@@ -124,6 +136,8 @@ def getJoystickYValue():
         if event.type == pygame.JOYAXISMOTION:
             if event.axis == 2:
                 jValue = event.value
+        if j.get_button(16):
+            stopDrive()
 
     if not jValue and jValue is not 0:
         return jBefore
@@ -173,11 +187,13 @@ def cruiseControl():
 def stopDrive():
     global stopped
     stopped = True
-    writeNumber(0, driveAddress)
-    writeNumber(50, turnAddress)
+    driveSer.write(0)
+    turnSer.write(50)
     print("Stopping ... ")
     cur.close()
     db.close()
+    driveSer.close()
+    turnSer.close()
     GPIO.cleanup()
     j.quit()
     pygame.quit()
@@ -199,7 +215,6 @@ def driveLoop():
     global stopped
     global manual
     global currentSpeed
-    global phoneSpeed
     try:
         while not stopped:
             print "drive"
@@ -211,29 +226,6 @@ def driveLoop():
             if currentSpeed <= const.motorMaxSpeed and currentSpeed >= const.motorZeroSpeed:
                 setSpeed(currentSpeed)
 
-    except KeyboardInterrupt:
-        stopDrive()
-
-# get data from mysql database and store in global variables until stopped
-def dataLoop():
-    global phoneSpeed
-    try:
-        while not stopped:
-            db = MySQLdb.connect(host="localhost", user="admin", passwd="madmobile1234", db="madmobile")
-            cur = db.cursor()
-            cur.execute("SELECT * FROM madmobile.liveData ORDER BY id DESC")
-            row = cur.fetchone()
-            objId = int(row[0])
-            objType = str(row[1])
-            objValue = str(row[2])
-            objDate = str(row[3])
-
-            if objType == "speed":
-                phoneSpeed = objValue
-
-            print phoneSpeed
-            #test closure of Cursor after every loop to recheck the database (may crash !!!)
-            cur.close()
     except KeyboardInterrupt:
         stopDrive()
 
@@ -253,12 +245,10 @@ def turnLoop():
 # start drive and multiple threads and main method
 def startDrive():
     setup()
-    p1 = Process(target = driveLoop)
+    t1 = Thread(target = driveLoop)
     t2 = Thread(target = distanceLoop)
-    t3 = Thread(target = dataLoop)
-    p4 = Process(target = turnLoop)
+    t4 = Thread(target = turnLoop)
 
-    p1.start()
+    t1.start()
     # t2.start()
-    # t3.start()
-    #p4.start()
+    t4.start()
