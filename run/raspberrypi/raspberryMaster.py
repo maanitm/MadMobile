@@ -5,6 +5,7 @@ import const
 from os import sys
 import RPi.GPIO as GPIO
 from threading import Thread
+from multiprocessing import Process
 import subprocess
 #import MySQLdb
 
@@ -252,12 +253,12 @@ def turnLoop():
 # start drive and multiple threads and main method
 def startDrive():
     setup()
-    t1 = Thread(target = driveLoop)
+    p1 = Process(target = driveLoop)
     t2 = Thread(target = distanceLoop)
     t3 = Thread(target = dataLoop)
-    t4 = Thread(target = turnLoop)
+    p4 = Process(target = turnLoop)
 
-    t1.start()
+    p1.start()
     # t2.start()
     # t3.start()
-    t4.start()
+    #p4.start()
