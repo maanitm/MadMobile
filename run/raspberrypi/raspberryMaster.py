@@ -92,23 +92,23 @@ def setSpeed(speed):
     time.sleep(0.15)
 
 # set motor speed
-def setTurn(turn):
-    if turn < 0:
-        newTurn = 100 - (turn * -1)
-    else:
-        newTurn = turn + 100
+# def setTurn(turn):
+#     if turn < 0:
+#         newTurn = 100 - (turn * -1)
+#     else:
+#         newTurn = turn + 100
 
-    print("-------------------")
-    print(turnAddress)
-    print(newTurn/2)
+#     print("-------------------")
+#     print(turnAddress)
+#     print(newTurn/2)
 
-    try:
-        turnSer.write(newTurn/2)
-    except IOError:
-        print("disconnected")
+#     try:
+#         turnSer.write(newTurn/2)
+#     except IOError:
+#         print("disconnected")
 
-    # writeNumber(int(newTurn/2), turnAddress)
-    time.sleep(3)
+#     # writeNumber(int(newTurn/2), turnAddress)
+#     time.sleep(3)
 
 # get PS3 joystick value
 def getJoystickXValue():
@@ -196,8 +196,6 @@ def stopDrive():
     #driveSer.write("0")
     #turnSer.write(50)
     print("Stopping ... ")
-    #cur.close()
-    #db.close()
     driveSer.close()
     turnSer.close()
     GPIO.cleanup()
@@ -224,7 +222,7 @@ def driveLoop():
     global currentSpeed
     try:
         while not stopped:
-            print "drive"
+            print("drive")
             if manual:
                 currentSpeed = manualDrive()
             else:
@@ -241,7 +239,7 @@ def turnLoop():
     global stopped
     try:
         while not stopped:
-	        print "turn"
+	        print("turn")
         	turnP = getJoystickYValue() * 100
         	currentTurn = turnP
         	setTurn(int(turnP))
