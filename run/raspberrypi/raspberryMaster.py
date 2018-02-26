@@ -21,6 +21,8 @@ frontDistance = 400
 TRIG = 20
 ECHO = 21
 
+incr = 0
+
 jValue = 0
 
 pygame.init()
@@ -75,16 +77,19 @@ def distance():
 
 # set motor speed
 def setSpeed(speed):
+    global incr
     # writeNumber(speed, driveAddress)
+    incr += 1
     print("-------------------")
     print(speed)
     try:
-        driveSer.write(b'\x83')
-        print(b'\x83')
+        theByte = bytes(chr(speed+48))
+        driveSer.write(theByte)
+        print(speed)
     except IOError:
         print("disconnected")
 
-    time.sleep(0.1)
+    time.sleep(0.15)
 
 # set motor speed
 def setTurn(turn):
@@ -188,16 +193,17 @@ def cruiseControl():
 def stopDrive():
     global stopped
     stopped = True
-    driveSer.write("0")
+    #driveSer.write("0")
     #turnSer.write(50)
     print("Stopping ... ")
-    cur.close()
-    db.close()
+    #cur.close()
+    #db.close()
     driveSer.close()
     turnSer.close()
     GPIO.cleanup()
     j.quit()
     pygame.quit()
+    print("Stopped")
     sys.exit()
 
 # repeatedly return distance values until stopped
