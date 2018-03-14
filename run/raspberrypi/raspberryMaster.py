@@ -10,7 +10,7 @@ import serial
 
 print("Raspberry Pi Master")
 
-driveSer = serial.Serial('/dev/ttyUSB0', 9600, timeout=1)
+driveSer = serial.Serial('/dev/ttyUSB1', 9600, timeout=1)
 turnSer = serial.Serial('/dev/ttyUSB0', 9600, timeout=1)
 
 stopped = False
@@ -92,23 +92,22 @@ def setSpeed(speed):
     time.sleep(0.15)
 
 # set motor speed
-# def setTurn(turn):
-#     if turn < 0:
-#         newTurn = 100 - (turn * -1)
-#     else:
-#         newTurn = turn + 100
+def setTurn(turn):
+    if turn < 0:
+        newTurn = 100 - (turn * -1)
+    else:
+        newTurn = turn + 100
 
-#     print("-------------------")
-#     print(turnAddress)
-#     print(newTurn/2)
+    print("-------------------")
+    print(newTurn/2)
 
-#     try:
-#         turnSer.write(newTurn/2)
-#     except IOError:
-#         print("disconnected")
+    try:
+        theByte = bytes(chr((newTurn/2)+48))
+        turnSer.write(theByte)
+    except IOError:
+        print("disconnected")
 
-#     # writeNumber(int(newTurn/2), turnAddress)
-#     time.sleep(3)
+    time.sleep(3)
 
 # get PS3 joystick value
 def getJoystickXValue():
@@ -142,7 +141,7 @@ def getJoystickYValue():
         if event.type == pygame.JOYAXISMOTION:
             if event.axis == 2:
                 jValue = event.value
-        if j.get_button(16):
+        elif j.get_button(16):
             stopDrive()
 
     if not jValue and jValue is not 0:
@@ -254,6 +253,6 @@ def startDrive():
     t2 = Thread(target = distanceLoop)
     t4 = Thread(target = turnLoop)
 
-    t1.start()
+    #t1.start()
     # t2.start()
-    #t4.start()
+    t4.start()

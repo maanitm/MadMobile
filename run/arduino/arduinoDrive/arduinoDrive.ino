@@ -1,4 +1,3 @@
-#include <Wire.h>
 #include <SPI.h>
 
 #define SLAVE_ADDRESS 0x04
@@ -22,7 +21,8 @@ void loop() {
     motorSpeed = readSpeed;
     if (motorSpeed < 129) {
       // digitalPotWrite(motorSpeed);
-      Serial.println(motorSpeed);
+      Serial.println("Drive: ");
+      Serial.print(motorSpeed);
       delay(50);
     }
     delay(100);

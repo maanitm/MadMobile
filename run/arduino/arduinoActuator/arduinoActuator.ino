@@ -1,4 +1,3 @@
-#include <Wire.h>
 #include <SPI.h>
 
 #define SLAVE_ADDRESS 0x06
@@ -18,12 +17,7 @@ void setup() {
 
   Serial.begin(SERIAL_ADDRESS);
   SPI.begin();
-  
-  Wire.begin(SLAVE_ADDRESS);
-  
-  Wire.onReceive(receiveData);
-  Wire.onRequest(sendData);
-  
+
   Serial.println("Ready!");
 }
 
@@ -33,16 +27,18 @@ void setActuatorValue(int value) {
     if (movement > 0) {
       digitalWrite(dirPin, HIGH);
       analogWrite(pwmPin, 255);
-      delay((300/100) * movement/2);
+      delay((300 / 10) * movement / 2);
       analogWrite(pwmPin, 0);
     }
     else if (movement < 0) {
       digitalWrite(dirPin, LOW);
       analogWrite(pwmPin, 255);
-      delay((300/100) * ((movement * -1)/2));
+      Serial.println("Start turn");
+      delay((300 / 10) * ((movement * -1) / 2));
       analogWrite(pwmPin, 0);
+      Serial.println("Stop Turn");
     }
-    
+
     actuatorVal = value;
     delay(5);
   }
@@ -50,19 +46,11 @@ void setActuatorValue(int value) {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  setActuatorValue(stickVal);
-}
-
-// callback for received data
-void receiveData(int byteCount) {
-  while(Wire.available()) {
-    stickVal = Wire.read();
-    Serial.println(stickVal);
-    delay(5);
+  if (Serial.available()) {
+    int readTurn = Serial.read() - '0';
+    stickVal = readTurn;
+    Serial.println("Turn: ");
+    Serial.print(stickVal);
+    setActuatorValue(stickVal);
   }
-}
-
-// callback for sending data
-void sendData() {
-  Wire.write(actuatorVal);
 }
