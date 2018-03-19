@@ -36,9 +36,9 @@ const.googleMapsApiKey = "AIzaSyAuPFEQGq-5JohYzHZxJpQ6buf24tU_dmU"
 const.mapboxApiKey = "sk.eyJ1IjoibWFhbml0bSIsImEiOiJjajY1YTFjdDEyMTlzMnFvM3FwcjRxZXY5In0.RF3RkIbvcfDiIK4xB2eBxQ"
 
 # motor and cruise
-const.motorZeroSpeed = 75
+const.motorZeroSpeed = 0
 const.cruiseSpeedIncrement = 3
-const.cruiseTopSpeed = 102 # maximum allowed
-const.motorMaxSpeed = 128 # maximum capable
+const.cruiseTopSpeed = 30 # maximum allowed
+const.motorMaxSpeed = 100 # maximum capable
 const.cruiseMinStopDistance = 50;
 const.cruiseMaxStopDistance = 400;

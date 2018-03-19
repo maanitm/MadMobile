@@ -10,8 +10,8 @@ import serial
 
 print("Raspberry Pi Master")
 
-driveSer = serial.Serial('/dev/ttyUSB1', 9600, timeout=1)
-turnSer = serial.Serial('/dev/ttyUSB0', 9600, timeout=1)
+driveSer = serial.Serial('/dev/ttyUSB0', 250000, timeout=1)
+#turnSer = serial.Serial('/dev/ttyUSB1', 9600, timeout=1)
 
 stopped = False
 currentSpeed = 0
@@ -152,8 +152,7 @@ def getJoystickYValue():
 def manualDrive():
     driveV = getJoystickXValue()
 
-    driveV = int(driveV * 53) * -1
-    driveV = driveV + 75
+    driveV = int(driveV * 100) * -1
     if driveV > 128:
         driveV = 128
     if driveV < 0:
@@ -192,7 +191,7 @@ def cruiseControl():
 def stopDrive():
     global stopped
     stopped = True
-    #driveSer.write("0")
+    setSpeed(-1)
     #turnSer.write(50)
     print("Stopping ... ")
     driveSer.close()
@@ -253,6 +252,6 @@ def startDrive():
     t2 = Thread(target = distanceLoop)
     t4 = Thread(target = turnLoop)
 
-    #t1.start()
+    t1.start()
     # t2.start()
-    t4.start()
+    #t4.start()
