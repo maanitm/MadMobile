@@ -12,15 +12,17 @@ void setup() {
   pinMode(DIR_PIN, OUTPUT);
 
   actuatorVal = analogRead(POT_PIN);
+  actuatorVal = actuatorVal * (100/1023);
 
   Serial.begin(SERIAL_ADDRESS);
-  SPI.begin();
+  
 
   Serial.println("Ready!");
 }
 
 void loop() {
   actuatorVal = analogRead(POT_PIN);
+  actuatorVal = actuatorVal * (100/1023);
   
   if (Serial.available()) {
     int setpoint = Serial.read() - '0';
@@ -30,12 +32,14 @@ void loop() {
         digitalWrite(DIR_PIN, HIGH);
         while (actuatorVal < setpoint) {
           actuatorVal = analogRead(POT_PIN);
+          actuatorVal = actuatorVal * (100/1023);
           analogWrite(PWM_PIN, 255);
         }
       } else if (setpoint < actuatorVal) {
         digitalWrite(DIR_PIN, LOW);
         while (actuatorVal > setpoint) {
           actuatorVal = analogRead(POT_PIN);
+          actuatorVal = actuatorVal * (100/1023);
           analogWrite(PWM_PIN, 255);
         }
       }

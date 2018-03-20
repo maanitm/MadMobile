@@ -24,7 +24,7 @@ void setup() {
   Serial.begin(SERIAL_ADDRESS); 
   servo.attach(SERVO_PIN);
 
-  servo.write(-1);
+  servo.write(180);
   currentAngle = 180;
   motorSpeed = MOTOR_OFF;
 }
