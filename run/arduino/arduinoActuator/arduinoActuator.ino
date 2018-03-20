@@ -1,7 +1,6 @@
 #include <SPI.h>
 
-#define SLAVE_ADDRESS 0x06
-#define SERIAL_ADDRESS 9600
+#define SERIAL_ADDRESS 250000
 #define pwmPin 3
 #define dirPin 2
 

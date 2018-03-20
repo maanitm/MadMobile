@@ -11,7 +11,7 @@ import serial
 print("Raspberry Pi Master")
 
 driveSer = serial.Serial('/dev/ttyUSB0', 250000, timeout=1)
-#turnSer = serial.Serial('/dev/ttyUSB1', 9600, timeout=1)
+turnSer = serial.Serial('/dev/ttyUSB1', 250000, timeout=1)
 
 stopped = False
 currentSpeed = 0
@@ -78,7 +78,7 @@ def distance():
 # set motor speed
 def setSpeed(speed):
     global incr
-    # writeNumber(speed, driveAddress)
+
     incr += 1
     print("-------------------")
     print(speed)
@@ -192,7 +192,7 @@ def stopDrive():
     global stopped
     stopped = True
     setSpeed(-1)
-    #turnSer.write(50)
+    setTurn(0)
     print("Stopping ... ")
     driveSer.close()
     turnSer.close()
@@ -254,4 +254,4 @@ def startDrive():
 
     t1.start()
     # t2.start()
-    #t4.start()
+    t4.start()
