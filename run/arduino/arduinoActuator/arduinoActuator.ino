@@ -1,18 +1,17 @@
-#include <SPI.h>
-
 #define SERIAL_ADDRESS 250000
-#define pwmPin 3
-#define dirPin 2
+#define PWM_PIN 3
+#define DIR_PIN 2
+#define POT_PIN A0
 
 int stickVal = 50;
 int actuatorVal = 0;
 
 void setup() {
   // put your setup code here, to run once:
-  pinMode(pwmPin, OUTPUT);
-  pinMode(dirPin, OUTPUT);
+  pinMode(PWM_PIN, OUTPUT);
+  pinMode(DIR_PIN, OUTPUT);
 
-  setActuatorValue(50);
+  actuatorVal = analogRead(POT_PIN);
 
   Serial.begin(SERIAL_ADDRESS);
   SPI.begin();
@@ -20,36 +19,27 @@ void setup() {
   Serial.println("Ready!");
 }
 
-void setActuatorValue(int value) {
-  if (value >= 0 && value <= 100) {
-    int movement = (value - actuatorVal);
-    if (movement > 0) {
-      digitalWrite(dirPin, HIGH);
-      analogWrite(pwmPin, 255);
-      delay((300 / 10) * movement / 2);
-      analogWrite(pwmPin, 0);
-    }
-    else if (movement < 0) {
-      digitalWrite(dirPin, LOW);
-      analogWrite(pwmPin, 255);
-      Serial.println("Start turn");
-      delay((300 / 10) * ((movement * -1) / 2));
-      analogWrite(pwmPin, 0);
-      Serial.println("Stop Turn");
-    }
-
-    actuatorVal = value;
-    delay(5);
-  }
-}
-
 void loop() {
-  // put your main code here, to run repeatedly:
+  actuatorVal = analogRead(POT_PIN);
+  
   if (Serial.available()) {
-    int readTurn = Serial.read() - '0';
-    stickVal = readTurn;
-    Serial.println("Turn: ");
-    Serial.print(stickVal);
-    setActuatorValue(stickVal);
+    int setpoint = Serial.read() - '0';
+    
+    if (setpoint != actuatorVal) {
+      if (setpoint > actuatorVal) {
+        digitalWrite(DIR_PIN, HIGH);
+        while (actuatorVal < setpoint) {
+          actuatorVal = analogRead(POT_PIN);
+          analogWrite(PWM_PIN, 255);
+        }
+      } else if (setpoint < actuatorVal) {
+        digitalWrite(DIR_PIN, LOW);
+        while (actuatorVal > setpoint) {
+          actuatorVal = analogRead(POT_PIN);
+          analogWrite(PWM_PIN, 255);
+        }
+      }
+      analogWrite(PWM_PIN, 0);
+    }
   }
 }
