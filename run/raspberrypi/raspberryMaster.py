@@ -93,16 +93,11 @@ def setSpeed(speed):
 
 # set motor speed
 def setTurn(turn):
-    if turn < 0:
-        newTurn = 100 - (turn * -1)
-    else:
-        newTurn = turn + 100
-
     print("-------------------")
-    print(newTurn/2)
+    print(turn)
 
     try:
-        theByte = bytes(chr((newTurn/2)+48))
+        theByte = bytes(chr((turn)+48))
         turnSer.write(theByte)
     except IOError:
         print("disconnected")
@@ -239,8 +234,8 @@ def turnLoop():
         while not stopped:
 	        print("turn")
         	turnP = getJoystickYValue() * 100
-        	currentTurn = turnP
-        	setTurn(int(turnP))
+        	currentTurn = int((turnP/2) + 50)
+        	setTurn(int((turnP/2) + 50))
 
     except KeyboardInterrupt:
         stopDrive()
@@ -250,8 +245,8 @@ def startDrive():
     setup()
     t1 = Thread(target = driveLoop)
     t2 = Thread(target = distanceLoop)
-    t4 = Thread(target = turnLoop)
+    t3 = Thread(target = turnLoop)
 
     t1.start()
     # t2.start()
-    t4.start()
+    t3.start()

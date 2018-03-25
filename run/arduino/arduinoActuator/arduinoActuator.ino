@@ -37,6 +37,7 @@ void loop() {
     setpoint = Serial.read() - '0';
 
     Serial.println(Serial.read());
+    Serial.println(Serial.read() - '0');
 
     Serial.println("Setpoint: ");
     Serial.println(setpoint);
