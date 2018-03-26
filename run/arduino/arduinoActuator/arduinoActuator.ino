@@ -47,12 +47,14 @@ void loop() {
   }
 
   if (setpoint != actuatorVal) {
-      if (actuatorVal < setpoint - 10) {
+      if (actuatorVal < setpoint) {
         digitalWrite(DIR_PIN, LOW);
-        analogWrite(PWM_PIN, 255);
-      } else if (actuatorVal > setpoint + 10) {
+        int pwmVal = 55 + (2 * (setpoint - actuatorVal));
+        analogWrite(PWM_PIN, pwmVal);
+      } else if (actuatorVal > setpoint) {
         digitalWrite(DIR_PIN, HIGH);
-        analogWrite(PWM_PIN, 255);
+        int pwmVal = 55 + (2 * (actuatorVal - setpoint));
+        analogWrite(PWM_PIN, pwmVal);
       } else {
         analogWrite(PWM_PIN, 0);
       }
