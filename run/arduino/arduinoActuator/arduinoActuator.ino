@@ -53,6 +53,8 @@ void loop() {
       } else if (actuatorVal > setpoint + 10) {
         digitalWrite(DIR_PIN, HIGH);
         analogWrite(PWM_PIN, 255);
+      } else {
+        analogWrite(PWM_PIN, 0);
       }
   }
   else {

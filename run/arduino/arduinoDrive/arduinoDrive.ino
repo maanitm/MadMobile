@@ -20,6 +20,10 @@ int current = 0;
 
 int currentAngle = 180;
 
+int startTime = 0;
+
+int currentTime = 0;
+
 void setup() { 
   Serial.begin(SERIAL_ADDRESS); 
   servo.attach(SERVO_PIN);
@@ -34,6 +38,7 @@ void loop(){
     Serial.print(motorSpeed);
     motorSpeed = Serial.read() - '0';
     setMotorSpeed(motorSpeed);
+    startTime = millis();
   }
 
   // if (current != sizeof(testSpeeds)) {
@@ -43,6 +48,11 @@ void loop(){
   //   current++;
   // }
   // delay(2000);
+
+  currentTime = millis();
+  if (currentTime - startTime > 2000 && currentAngle > 15) {
+    turnOff();
+  }
 }
 
 void setMotorSpeed(int speed) {
@@ -68,7 +78,7 @@ void setMotorSpeed(int speed) {
 }
 
 void turnOff() {
-  setMotorSpeed(MOTOR_OFF);
+  setMotorSpeed(-1);
 }
 
 void turnOn() {

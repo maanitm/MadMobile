@@ -15,6 +15,7 @@ turnSer = serial.Serial('/dev/ttyUSB1', 250000, timeout=1)
 
 stopped = False
 currentSpeed = 0
+
 currentTurn = 0
 manual = True
 frontDistance = 400
@@ -102,7 +103,7 @@ def setTurn(turn):
     except IOError:
         print("disconnected")
 
-    time.sleep(3)
+    time.sleep(0.15)
 
 # get PS3 joystick value
 def getJoystickXValue():
@@ -187,7 +188,7 @@ def stopDrive():
     global stopped
     stopped = True
     setSpeed(-1)
-    setTurn(0)
+    setTurn(50)
     print("Stopping ... ")
     driveSer.close()
     turnSer.close()
@@ -243,9 +244,9 @@ def turnLoop():
 # start drive and multiple threads and main method
 def startDrive():
     setup()
-    t1 = Thread(target = driveLoop)
+    t1 = Process(target = driveLoop)
     t2 = Thread(target = distanceLoop)
-    t3 = Thread(target = turnLoop)
+    t3 = Process(target = turnLoop)
 
     t1.start()
     # t2.start()
