@@ -15,7 +15,7 @@ if platform == "mac-test":
     from testing import sidewalkTracking
 
     # navSimulation.run('4986 Weathervane Drive, Johns Creek, GA', '11585 Jones Bridge Rd Ste 500, Johns Creek, GA')
-    sidewalkTracking.run('solidWhiteRight.mp4')
+    sidewalkTracking.run('testing/test.mp4')
 
 if platform == "win-test":
     from testing import navSimulation
