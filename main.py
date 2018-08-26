@@ -18,11 +18,11 @@ if platform == "mac-test":
     sidewalkTracking.run('testing/test.mp4')
 
 if platform == "win-test":
-    from testing import navSimulation
+    # from testing import navSimulation
     from testing import sidewalkTracking
 
-    navSimulation.run('4986 Weathervane Drive, Johns Creek, GA', '11585 Jones Bridge Rd Ste 500, Johns Creek, GA')
-    sidewalkTracking.run(0)
+    # navSimulation.run('4986 Weathervane Drive, Johns Creek, GA', '11585 Jones Bridge Rd Ste 500, Johns Creek, GA')
+    sidewalkTracking.run('testing/test.mp4')
 
 elif platform == "ras-pi":
     from run.raspberrypi import raspberryMaster
