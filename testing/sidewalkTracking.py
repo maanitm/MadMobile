@@ -99,12 +99,12 @@ def run(capture_port):
             # mask_white = cv2.inRange(gray_image, 200, 250)
             # mask_image = cv2.bitwise_and(gray_image, mask_white)
 
-            kernel_size = 5
+            kernel_size = 7
             gauss_gray = gaussian_blur(gray_image, kernel_size)
 
-            low_threshold = 112.5
-            high_threshold = 187.5
-            canny_edges = canny(gauss_gray, low_threshold, high_threshold)
+            low_threshold = 0
+            high_threshold = 300
+            canny_edges = canny(gray_image, low_threshold, high_threshold)
 
             # imshape = cam.shape
             # lower_left = [imshape[1]/9, imshape[0]]
@@ -116,18 +116,18 @@ def run(capture_port):
 
             # #rho and theta are the distance and angular resolution of the grid in Hough space
             # #same values as quiz
-            # rho = 2
-            # theta = np.pi/180
-            # #threshold is minimum number of intersections in a grid for candidate line to go to output
-            # threshold = 20
-            # min_line_len = 50
-            # max_line_gap = 200
+            rho = 2
+            theta = np.pi/180
+            #threshold is minimum number of intersections in a grid for candidate line to go to output
+            threshold = 20
+            min_line_len = 50
+            max_line_gap = 200
 
-            # line_image = hough_lines(roi_image, rho, theta, threshold, min_line_len, max_line_gap)
+            line_image = hough_lines(canny_edges, rho, theta, threshold, min_line_len, max_line_gap)
             # result = weighted_img(line_image, cam, α=0.8, β=1., λ=0.)
 
             cv2.imshow("Original", cam)
-            cv2.imshow("Edited", canny_edges)
+            cv2.imshow("Edited", line_image)
         except:
             continue
         key = cv2.waitKey(1) & 0xFF
