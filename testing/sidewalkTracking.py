@@ -2,6 +2,7 @@
 import numpy as np
 import imutils
 import cv2
+import tkinter as tk
 
 def grayscale(img):
     """Applies the Grayscale transform
@@ -86,36 +87,80 @@ def weighted_img(img, initial_img, α=0.8, β=1., λ=0.):
     """
     return cv2.addWeighted(initial_img, α, img, β, λ)
 
+def callback(x):
+    pass
+
 def run(capture_port):
     camera = cv2.VideoCapture(capture_port)
+    cv2.namedWindow('image')
+
+    ilowH = 0
+    ihighH = 255
+
+    ilowS = 0
+    ihighS = 255
+    ilowV = 0
+    ihighV = 255
+
+    # create trackbars for color change
+    cv2.createTrackbar('lowH','image',ilowH,255,callback)
+    cv2.createTrackbar('highH','image',ihighH,255,callback)
+
+    cv2.createTrackbar('lowS','image',ilowS,255,callback)
+    cv2.createTrackbar('highS','image',ihighS,255,callback)
+
+    cv2.createTrackbar('lowV','image',ilowV,255,callback)
+    cv2.createTrackbar('highV','image',ihighV,255,callback)
+
+    frame_counter = 0
+
     while True:
         (grabbed, cam) = camera.read()
-        
-        cam = imutils.resize(cam, width=1000)
+
+        frame_counter += 1
+        #If the last frame is reached, reset the capture and the frame_counter
+        # print(cv2.CV_CAP_)
+        if frame_counter == camera.get(cv2.CAP_PROP_FRAME_COUNT):
+            frame_counter = 0 #Or whatever as long as it is the same as next line
+            camera.set(cv2.CAP_PROP_POS_FRAMES, 0)
 
         try:
-            gray_image = cv2.cvtColor(cam, cv2.COLOR_BGR2GRAY)
+            cam = imutils.resize(cam, width=1080)
 
-            # mask_white = cv2.inRange(gray_image, 200, 250)
-            # mask_image = cv2.bitwise_and(gray_image, mask_white)
+            hsv = cv2.cvtColor(cam,cv2.COLOR_BGR2HSV)
+
+            ilowH = cv2.getTrackbarPos('lowH', 'image')
+            ihighH = cv2.getTrackbarPos('highH', 'image')
+            ilowS = cv2.getTrackbarPos('lowS', 'image')
+            ihighS = cv2.getTrackbarPos('highS', 'image')
+            ilowV = cv2.getTrackbarPos('lowV', 'image')
+            ihighV = cv2.getTrackbarPos('highV', 'image')
+
+            lower_gray = np.array([0, 0, 0])
+            upper_gray = np.array([144, 82, 255])
+
+            mask = cv2.inRange(hsv, lower_gray, upper_gray)
+            res = cv2.bitwise_and(cam, cam, mask=mask)
+
+            # gray_image = cv2.cvtColor(mask, cv2.COLOR_HSV2GRAY)
 
             kernel_size = 7
-            gauss_gray = gaussian_blur(gray_image, kernel_size)
+            gauss_gray = gaussian_blur(mask, kernel_size)
 
             low_threshold = 0
-            high_threshold = 300
-            canny_edges = canny(gray_image, low_threshold, high_threshold)
+            high_threshold = 400
+            canny_edges = canny(gauss_gray, low_threshold, high_threshold)
 
             # imshape = cam.shape
-            # lower_left = [imshape[1]/9, imshape[0]]
-            # lower_right = [imshape[1]-imshape[1]/9, imshape[0]]
+            # lower_left = [0, imshape[0]]
+            # lower_right = [imshape[1], imshape[0]]
             # top_left = [imshape[1]/2-imshape[1]/8, imshape[0]/2+imshape[0]/10]
             # top_right = [imshape[1]/2+imshape[1]/8, imshape[0]/2+imshape[0]/10]
             # vertices = [np.array([lower_left, top_left, top_right, lower_right], dtype=np.int32)]
             # roi_image = region_of_interest(canny_edges, vertices)
 
-            # #rho and theta are the distance and angular resolution of the grid in Hough space
-            # #same values as quiz
+            #rho and theta are the distance and angular resolution of the grid in Hough space
+            #same values as quiz
             rho = 2
             theta = np.pi/180
             #threshold is minimum number of intersections in a grid for candidate line to go to output
@@ -124,10 +169,19 @@ def run(capture_port):
             max_line_gap = 200
 
             line_image = hough_lines(canny_edges, rho, theta, threshold, min_line_len, max_line_gap)
-            # result = weighted_img(line_image, cam, α=0.8, β=1., λ=0.)
+            result = weighted_img(line_image, cam, α=0.8, β=1., λ=0.)
+
+            print(ilowH)
+            print(ilowS)
+            print(ilowV)
+            print(ihighH)
+            print(ihighS)
+            print(ihighV)
 
             cv2.imshow("Original", cam)
-            cv2.imshow("Edited", line_image)
+            cv2.imshow("Mask", mask)
+            cv2.imshow("Results", result)
+            cv2.imshow("Canny", canny_edges)
         except:
             continue
         key = cv2.waitKey(1) & 0xFF
