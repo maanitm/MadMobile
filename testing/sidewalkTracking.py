@@ -149,7 +149,7 @@ def run(capture_port):
             gauss_gray = gaussian_blur(mask, kernel_size)
 
             low_threshold = 0
-            high_threshold = 400
+            high_threshold = 5
             canny_edges = canny(gauss_gray, low_threshold, high_threshold)
             
             rho = 2
